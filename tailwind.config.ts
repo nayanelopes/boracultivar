@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Cores personalizadas para o projeto Raiz Urbana Brasil
+				raiz: {
+					green: {
+						dark: '#2B5329',
+						light: '#6A994E'
+					},
+					earth: '#BC6C25',
+					background: '#F7F7F2',
+					gray: '#58585A'
 				}
 			},
 			borderRadius: {
