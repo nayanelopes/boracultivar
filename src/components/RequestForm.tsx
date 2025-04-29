@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { MapPin, Mail, Camera, Upload } from 'lucide-react';
@@ -29,6 +29,25 @@ const RequestForm = () => {
   
   const [imagemLocal, setImagemLocal] = useState<string | null>(null);
   const [isCapturando, setIsCapturando] = useState(false);
+  const [formValido, setFormValido] = useState(false);
+  
+  // Verificar a validade do formulário sempre que os campos mudam
+  useEffect(() => {
+    const { nome, email, telefone, endereco, numero, bairro, cep, tipoLocal, concordaTermos } = form;
+    const camposObrigatoriosPreenchidos = 
+      nome.trim() !== '' && 
+      email.trim() !== '' && 
+      telefone.trim() !== '' && 
+      endereco.trim() !== '' && 
+      numero.trim() !== '' && 
+      bairro.trim() !== '' && 
+      cep.trim() !== '' && 
+      tipoLocal.trim() !== '' && 
+      concordaTermos && 
+      imagemLocal !== null;
+      
+    setFormValido(camposObrigatoriosPreenchidos);
+  }, [form, imagemLocal]);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -356,13 +375,27 @@ const RequestForm = () => {
           </label>
         </div>
         
-        {/* Botão de envio */}
+        {/* Botão de envio com estado condicional */}
         <div className="flex justify-center pt-4">
-          <Button type="submit" className="bg-raiz-green text-white hover:bg-raiz-green-dark flex items-center gap-2">
+          <Button 
+            type="submit" 
+            className={`flex items-center gap-2 ${
+              formValido 
+                ? "bg-raiz-green text-white hover:bg-raiz-green-dark" 
+                : "bg-gray-300 text-gray-600 cursor-not-allowed"
+            }`}
+            disabled={!formValido}
+          >
             <Mail className="h-5 w-5" />
             Enviar Solicitação
           </Button>
         </div>
+        
+        {!formValido && (
+          <p className="text-center text-sm text-red-500 mt-2">
+            Por favor, preencha todos os campos obrigatórios e adicione uma foto do local.
+          </p>
+        )}
         
         <p className="text-center text-sm text-raiz-gray mt-4">
           * Campos obrigatórios
