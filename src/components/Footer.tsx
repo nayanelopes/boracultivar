@@ -33,24 +33,24 @@ const Footer = () => {
             <h3 className="font-semibold text-lg mb-4">Links Úteis</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-white/80 hover:text-white transition-colors">
-                  Início
+                <Link to="/quem-somos" className="text-white/80 hover:text-white transition-colors">
+                  Sobre Nós
                 </Link>
               </li>
               <li>
-                <Link to="/solicitar-plantio" className="text-white/80 hover:text-white transition-colors">
-                  Solicitar Plantio
+                <Link to="#" className="text-white/80 hover:text-white transition-colors">
+                  Termos De Uso
                 </Link>
               </li>
               <li>
-                <Link to="/consultar-status" className="text-white/80 hover:text-white transition-colors">
-                  Consultar Status
+                <Link to="#" className="text-white/80 hover:text-white transition-colors">
+                  Aviso Legal
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-white/80 hover:text-white transition-colors">
-                  Sobre o Projeto
-                </a>
+                <Link to="#" className="text-white/80 hover:text-white transition-colors">
+                  Política de Privacidade
+                </Link>
               </li>
             </ul>
           </div>
@@ -60,11 +60,11 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-raiz-earth" />
-                <span>contato@raizurbana.org.br</span>
+                <span>raizurbana@gmail.com.br</span>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-raiz-earth" />
-                <span>Secretaria de Meio Ambiente, Centro</span>
+                <span>Prefeitura do Centro do Recife, Recife Antigo</span>
               </li>
               <li className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-raiz-earth" />
