@@ -9,7 +9,7 @@ const Hero = () => {
       <div className="container flex flex-col md:flex-row items-center py-16 md:py-24 gap-8">
         <div className="flex-1 space-y-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-raiz-green-dark leading-tight">
-            Transforme sua rua com mais sombra e vida
+            Mais árvores, mais vida: um Recife mais verde começa com uma semente de consciência.
           </h1>
           <p className="text-lg md:text-xl text-raiz-gray max-w-2xl">
             Solicite o plantio de árvores na sua calçada e ajude a construir uma cidade mais fresca, saudável e bonita.
