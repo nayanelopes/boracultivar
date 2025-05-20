@@ -3,10 +3,9 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import InfoSection from '@/components/InfoSection';
-import StatusCheck from '@/components/StatusCheck';
 import Footer from '@/components/Footer';
 import { Link } from 'react-router-dom';
-import { Trees, ArrowRight, Trophy, Star, BadgePercent } from 'lucide-react';
+import { ArrowRight, Trophy, Star, BadgePercent } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -56,7 +55,7 @@ const Index = () => {
             
             <div className="mt-10 text-center">
               <Link to="/solicitar-plantio" className="btn-primary flex items-center gap-2 mx-auto w-fit">
-                <Trees className="h-5 w-5" />
+                <CapibaraIcon />
                 Solicitar Agora
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -74,18 +73,18 @@ const Index = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
               <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
-                <Trophy className="h-12 w-12 text-raiz-earth mb-4" />
-                <h3 className="text-xl font-semibold text-raiz-green-dark mb-2">Ranking de Solicitações</h3>
-                <p className="text-raiz-gray mb-4">
-                  Suba no ranking à medida que solicita mais árvores. Os melhores ganhadores recebem prêmios exclusivos!
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
                 <Star className="h-12 w-12 text-raiz-earth mb-4" fill="currentColor" />
                 <h3 className="text-xl font-semibold text-raiz-green-dark mb-2">Moedas Capiba</h3>
                 <p className="text-raiz-gray mb-4">
                   Ganhe moedas Capiba para cada ação sustentável realizada. Use-as para resgatar recompensas!
+                </p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                <Trophy className="h-12 w-12 text-raiz-earth mb-4" />
+                <h3 className="text-xl font-semibold text-raiz-green-dark mb-2">Desafios Ambientais</h3>
+                <p className="text-raiz-gray mb-4">
+                  Complete desafios especiais e ganhe bônus de moedas Capiba. Fique atento às missões semanais!
                 </p>
               </div>
               
@@ -107,12 +106,20 @@ const Index = () => {
             </div>
           </div>
         </section>
-        
-        <StatusCheck />
       </main>
       <Footer />
     </div>
   );
 };
+
+// Componente para o ícone da capivara
+const CapibaraIcon = () => (
+  <svg viewBox="0 0 100 100" width="20" height="20" fill="currentColor">
+    <path d="M85,50 C85,25 70,15 50,15 C30,15 15,25 15,50 C15,75 30,85 50,85 C70,85 85,75 85,50 Z" />
+    <circle cx="30" cy="40" r="4" />
+    <circle cx="70" cy="40" r="4" />
+    <path d="M40,55 C43,60 50,65 60,55" fill="none" stroke="currentColor" strokeWidth="2" />
+  </svg>
+);
 
 export default Index;

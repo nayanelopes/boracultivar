@@ -9,6 +9,7 @@ import SolicitarPlantio from "./pages/SolicitarPlantio";
 import ConsultarStatus from "./pages/ConsultarStatus";
 import Gamificacao from "./pages/Gamificacao";
 import NotFound from "./pages/NotFound";
+import QuemSomos from "./pages/QuemSomos";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/solicitar-plantio" element={<SolicitarPlantio />} />
           <Route path="/consultar-status" element={<ConsultarStatus />} />
           <Route path="/gamificacao" element={<Gamificacao />} />
+          <Route path="/quem-somos" element={<QuemSomos />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TreePalm, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -26,7 +26,17 @@ const Hero = () => {
         </div>
         <div className="flex-1 flex justify-center items-center">
           <div className="relative w-64 h-64 md:w-80 md:h-80 bg-raiz-green-light rounded-full flex justify-center items-center">
-            <TreePalm className="text-white w-32 h-32 md:w-40 md:h-40" />
+            <svg viewBox="0 0 100 100" width="60%" height="60%" fill="white">
+              <path d="M85,50 C85,25 70,15 50,15 C30,15 15,25 15,50 C15,75 30,85 50,85 C70,85 85,75 85,50 Z" />
+              <circle cx="30" cy="40" r="4" />
+              <circle cx="70" cy="40" r="4" />
+              <path d="M40,55 C43,60 50,65 60,55" fill="none" stroke="black" strokeWidth="2" />
+              <ellipse cx="50" cy="65" rx="10" ry="5" />
+              <path d="M25,25 C20,20 15,25 15,30" fill="none" stroke="black" strokeWidth="2" />
+              <path d="M75,25 C80,20 85,25 85,30" fill="none" stroke="black" strokeWidth="2" />
+              <ellipse cx="22" cy="60" rx="10" ry="6" transform="rotate(-20 22 60)" />
+              <ellipse cx="78" cy="60" rx="10" ry="6" transform="rotate(20 78 60)" />
+            </svg>
             <div className="absolute -top-4 -right-4 bg-raiz-earth text-white rounded-full w-20 h-20 flex items-center justify-center text-sm font-medium p-2 text-center">
               Mais vida para a cidade
             </div>
