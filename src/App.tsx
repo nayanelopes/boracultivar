@@ -11,6 +11,9 @@ import Gamificacao from "./pages/Gamificacao";
 import NotFound from "./pages/NotFound";
 import QuemSomos from "./pages/QuemSomos";
 
+// Remove App.css import
+// import './App.css';
+
 const queryClient = new QueryClient();
 
 const App = () => (
