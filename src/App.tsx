@@ -10,6 +10,7 @@ import ConsultarStatus from "./pages/ConsultarStatus";
 import Gamificacao from "./pages/Gamificacao";
 import NotFound from "./pages/NotFound";
 import QuemSomos from "./pages/QuemSomos";
+import Autenticacao from "./pages/Autenticacao";
 import { useState } from 'react';
 
 // Remove App.css import
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/consultar-status" element={<ConsultarStatus />} />
             <Route path="/gamificacao" element={<Gamificacao />} />
             <Route path="/quem-somos" element={<QuemSomos />} />
+            <Route path="/autenticacao" element={<Autenticacao />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
