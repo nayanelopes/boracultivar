@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -149,6 +150,13 @@ const RequestForm = () => {
     // Gerar número de protocolo aleatório
     const novoProtocolo = generateProtocol();
     setProtocolo(novoProtocolo);
+    
+    // Salvar o protocolo no localStorage para recuperação futura
+    try {
+      localStorage.setItem('plantio_protocolo', novoProtocolo);
+    } catch (error) {
+      console.error("Erro ao salvar protocolo:", error);
+    }
     
     // Abrir o diálogo de confirmação
     setDialogOpen(true);

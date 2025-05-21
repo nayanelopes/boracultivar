@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 
 type StatusProps = {
@@ -14,6 +14,18 @@ const StatusCheck: React.FC<StatusProps> = ({ compact = false }) => {
     descricao: string;
     cor: string;
   }>(null);
+  
+  // Carregar protocolo salvo ao inicializar o componente
+  useEffect(() => {
+    try {
+      const savedProtocolo = localStorage.getItem('plantio_protocolo');
+      if (savedProtocolo) {
+        setProtocolo(savedProtocolo);
+      }
+    } catch (error) {
+      console.error("Erro ao recuperar protocolo:", error);
+    }
+  }, []);
   
   // Dados simulados para demonstração
   const mockStatuses: Record<string, {
@@ -50,6 +62,17 @@ const StatusCheck: React.FC<StatusProps> = ({ compact = false }) => {
       setStatus(result || null);
     }, 500);
   };
+  
+  // Se temos um protocolo automaticamente ao carregar, verificar o status
+  useEffect(() => {
+    if (protocolo) {
+      // Verificar status após um pequeno delay para dar tempo da UI renderizar
+      setTimeout(() => {
+        const result = mockStatuses[protocolo];
+        setStatus(result || null);
+      }, 100);
+    }
+  }, [protocolo]);
   
   return (
     <div className={`${compact ? 'bg-transparent' : 'section bg-gray-50'}`}>
