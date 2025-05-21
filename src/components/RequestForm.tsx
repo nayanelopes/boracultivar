@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -8,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const RequestForm = () => {
   const navigate = useNavigate();
@@ -158,6 +158,13 @@ const RequestForm = () => {
     setDialogOpen(false);
     // Redirecionar para página de consulta com o protocolo
     navigate(`/consultar-status?protocolo=${protocolo}`);
+  };
+  
+  const handleCheckboxChange = (checked: boolean) => {
+    setForm(prev => ({
+      ...prev,
+      concordaTermos: checked
+    }));
   };
   
   return (
@@ -366,14 +373,11 @@ const RequestForm = () => {
         
         {/* Termos e condições */}
         <div className="flex items-start gap-2 mt-4">
-          <input
-            type="checkbox"
+          <Checkbox
             id="concordaTermos"
-            name="concordaTermos"
             checked={form.concordaTermos}
-            onChange={handleChange}
-            required
-            className="mt-1"
+            onCheckedChange={handleCheckboxChange}
+            className="mt-1 bg-gray-100"
           />
           <label htmlFor="concordaTermos" className="text-sm">
             Concordo em compartilhar meus dados para fins de avaliação da solicitação e me 
@@ -387,7 +391,7 @@ const RequestForm = () => {
             type="submit" 
             className={`flex items-center gap-2 transition-all duration-300 ${
               formValido 
-                ? "bg-raiz-green text-white hover:bg-raiz-green-dark scale-105" 
+                ? "bg-gray-800 text-white hover:bg-gray-700 scale-105" 
                 : "bg-gray-300 text-gray-600 cursor-not-allowed"
             }`}
             disabled={!formValido}
