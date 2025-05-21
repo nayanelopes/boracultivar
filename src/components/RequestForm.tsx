@@ -2,11 +2,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import { MapPin, Mail, Camera, Upload } from 'lucide-react';
+import { MapPin, Mail, Camera, Check } from 'lucide-react';
 import { formatPhone, formatCEP, generateProtocol } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 
 const RequestForm = () => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ const RequestForm = () => {
   const [imagemLocal, setImagemLocal] = useState<string | null>(null);
   const [isCapturando, setIsCapturando] = useState(false);
   const [formValido, setFormValido] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [protocolo, setProtocolo] = useState('');
   
   // Verificar a validade do formulário sempre que os campos mudam
   useEffect(() => {
@@ -143,21 +146,18 @@ const RequestForm = () => {
       return;
     }
     
-    // Simulação de envio para API
-    setTimeout(() => {
-      // Gerar número de protocolo aleatório simulado
-      const protocolo = generateProtocol();
-      
-      // Mostrar toast de sucesso
-      toast({
-        title: "Solicitação enviada com sucesso!",
-        description: `Seu número de protocolo é: ${protocolo}`,
-        duration: 5000,
-      });
-      
-      // Redirecionar para página de consulta com o protocolo
-      navigate(`/consultar-status?protocolo=${protocolo}`);
-    }, 1500);
+    // Gerar número de protocolo aleatório
+    const novoProtocolo = generateProtocol();
+    setProtocolo(novoProtocolo);
+    
+    // Abrir o diálogo de confirmação
+    setDialogOpen(true);
+  };
+  
+  const handleConfirmar = () => {
+    setDialogOpen(false);
+    // Redirecionar para página de consulta com o protocolo
+    navigate(`/consultar-status?protocolo=${protocolo}`);
   };
   
   return (
@@ -309,7 +309,7 @@ const RequestForm = () => {
         <div>
           <h2 className="text-2xl font-semibold text-raiz-green-dark mb-6 flex items-center gap-2">
             <Camera className="h-5 w-5" />
-            Foto do Local
+            Foto do Local *
           </h2>
           
           <div className="flex flex-col items-center border-2 border-dashed border-raiz-green-light/50 rounded-lg p-6 bg-raiz-green-light/5">
@@ -327,6 +327,9 @@ const RequestForm = () => {
                 <Camera className="h-16 w-16 text-raiz-green mb-4" />
                 <p className="text-center text-raiz-gray mb-4">
                   Tire uma foto do local onde deseja o plantio da árvore. Isso nos ajuda a avaliar melhor o espaço.
+                </p>
+                <p className="text-center text-red-500 mb-4 font-medium">
+                  Este campo é obrigatório para análise da solicitação.
                 </p>
                 <Button 
                   type="button"
@@ -352,7 +355,10 @@ const RequestForm = () => {
                     Remover
                   </Button>
                 </div>
-                <p className="text-sm text-raiz-gray italic">Foto do local adicionada com sucesso.</p>
+                <p className="text-sm text-green-600 italic flex items-center">
+                  <Check className="h-4 w-4 mr-1" />
+                  Foto do local adicionada com sucesso.
+                </p>
               </div>
             )}
           </div>
@@ -379,9 +385,9 @@ const RequestForm = () => {
         <div className="flex justify-center pt-4">
           <Button 
             type="submit" 
-            className={`flex items-center gap-2 ${
+            className={`flex items-center gap-2 transition-all duration-300 ${
               formValido 
-                ? "bg-raiz-green text-white hover:bg-raiz-green-dark" 
+                ? "bg-raiz-green text-white hover:bg-raiz-green-dark scale-105" 
                 : "bg-gray-300 text-gray-600 cursor-not-allowed"
             }`}
             disabled={!formValido}
@@ -401,6 +407,41 @@ const RequestForm = () => {
           * Campos obrigatórios
         </p>
       </form>
+
+      {/* Diálogo de confirmação */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center text-raiz-green-dark text-xl">
+              Sua solicitação foi confirmada!
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-6 flex flex-col items-center">
+            <div className="bg-raiz-green-light/20 rounded-full p-3 mb-4">
+              <Check className="h-10 w-10 text-raiz-green-dark" />
+            </div>
+            <p className="text-center mb-2">
+              Agradecemos por contribuir com a arborização urbana!
+            </p>
+            <div className="border border-raiz-green-light/50 rounded-lg p-3 bg-raiz-green-light/10 mt-2 text-center">
+              <p className="text-sm mb-1">Seu número de protocolo é:</p>
+              <p className="text-xl font-bold text-raiz-green-dark">{protocolo}</p>
+              <p className="text-xs text-raiz-gray mt-2">
+                Guarde este número para consultar o status da sua solicitação.
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button 
+              type="button" 
+              className="w-full bg-raiz-green text-white hover:bg-raiz-green-dark"
+              onClick={handleConfirmar}
+            >
+              Acompanhar solicitação
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
