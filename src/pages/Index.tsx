@@ -8,6 +8,15 @@ import WhoWeAre from '@/components/WhoWeAre';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Trophy, Star, BadgePercent, Check, Leaf } from 'lucide-react';
 
+// Componente para o ícone da árvore
+const TreeIcon = () => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" strokeWidth="0.5">
+    <path d="M12 2.5a5 5 0 00-5 5c0 2.76 2.24 5 5 5s5-2.24 5-5a5 5 0 00-5-5zm0 8.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" />
+    <path d="M12 12v9.5M8.5 16h7" />
+    <path d="M7 20h10" />
+  </svg>
+);
+
 const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
@@ -227,12 +236,12 @@ const Index = () => {
             </div>
           </div>
         </section>
-      </main>
+       </main>
       <Footer />
+      <ChatbaseWidget />
     </div>
   );
 };
-
 // Componente para o ícone da árvore
 const TreeIcon = () => (
   <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" strokeWidth="0.5">
