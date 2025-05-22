@@ -18,10 +18,10 @@ const Index = () => {
           <div className="container px-4 py-16 md:py-24 flex flex-col md:flex-row items-center">
             <div className="relative z-10 flex-1 space-y-6 text-white max-w-2xl">
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
-                Let's save Recife with trees
+                Uma cidade mais verde começa com você.
               </h1>
               <p className="text-xl md:text-2xl">
-                🌳 Transforme sua calçada em um espaço de vida. Solicite o plantio gratuito de árvores e ajude a refrescar o Recife.
+                 Transforme sua calçada em um espaço de vida. Solicite o plantio gratuito de árvores e ajude a refrescar o Recife.🌳
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/solicitar-plantio" className="bg-white text-green-600 hover:bg-gray-100 px-6 py-3 rounded-full flex items-center justify-center gap-2 font-bold transition-colors">
@@ -37,7 +37,7 @@ const Index = () => {
             <div className="flex-1 mt-8 md:mt-0 relative">
               <div className="relative z-10">
                 <img 
-                  src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86" 
+                  src="https://movimentoeconomico.com.br/wp-content/uploads/2023/03/Plantio-de-arvores-no-Recife.1-Wagner-Ramos-PCR-Imagem.jpeg" 
                   alt="Árvores na cidade" 
                   className="rounded-2xl shadow-xl max-w-full h-auto"
                 />
