@@ -15,12 +15,13 @@ const Hero = () => {
             Um Recife mais verde começa com você
           </p>
           <p className="text-base md:text-lg text-raiz-gray max-w-2xl">
-            Solicite o plantio de árvores na sua calçada e ajude a construir uma cidade mais fresca, saudável e bonita.
+            🌳 Transforme sua calçada em um espaço de vida. Solicite o plantio gratuito de árvores e ajude a refrescar o Recife.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <Link to="/solicitar-plantio" className="btn-primary flex items-center justify-center gap-2 px-4 py-2.5 text-sm sm:text-base">
-              Solicitar Plantio
+              Quero plantar uma árvore
               <ArrowRight className="h-4 w-4" />
+              <span className="bg-white text-raiz-green-dark text-xs px-2 py-0.5 rounded-full ml-1">100% gratuito</span>
             </Link>
             <Link to="/consultar-status" className="btn-secondary flex items-center justify-center gap-2 px-4 py-2.5 text-sm sm:text-base">
               Acompanhar Solicitação
@@ -28,7 +29,6 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* Replaced capybara with a tree illustration */}
         <div className="flex-1 flex justify-center items-center mt-4 md:mt-0">
           <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 bg-raiz-green-light rounded-full flex justify-center items-center">
             <TreeDeciduous size={160} className="text-white" />

@@ -30,47 +30,62 @@ const InfoSection = () => {
         
         <div className="mb-10 mx-auto max-w-3xl text-raiz-gray">
           <p className="mb-4">
-            Urban afforestation is one of the most effective ways to improve air quality. Trees help filter pollutants, increase humidity and reduce temperature, making the environment healthier and more balanced. Air quality refers to the purity of the air we breathe, and is assessed by the amount of pollutants present in the atmosphere, such as fine dust (PM2.5 and PM10), carbon monoxide, nitrogen dioxide and ozone.
+            A arborização urbana é uma das formas mais eficazes de melhorar a qualidade do ar. As árvores ajudam a filtrar poluentes, aumentar a umidade e reduzir a temperatura, tornando o ambiente mais saudável e equilibrado. A qualidade do ar refere-se à pureza do ar que respiramos, e é avaliada pela quantidade de poluentes presentes na atmosfera, como poeira fina (PM2,5 e PM10), monóxido de carbono, dióxido de nitrogênio e ozônio.
           </p>
           <p className="mb-4">
-            When these levels are high, they can cause respiratory problems, irritations and aggravate chronic diseases. Unfortunately, more than 90% of the world's population lives in places with poor air quality. In Brazil, forest fires and urban pollution have contributed to this problem. In September 2024, São Paulo had one of the worst air quality levels in the world.
+            Quando esses níveis estão altos, podem causar problemas respiratórios, irritações e agravar doenças crônicas. Infelizmente, mais de 90% da população mundial vive em locais com má qualidade do ar. No Brasil, incêndios florestais e poluição urbana têm contribuído para esse problema. Em setembro de 2024, São Paulo tinha um dos piores níveis de qualidade do ar do mundo.
           </p>
           <p className="mb-4">
-            Therefore, planting trees is a simple but powerful action to take care of the health of people and the planet.
+            Portanto, plantar árvores é uma ação simples, mas poderosa, para cuidar da saúde das pessoas e do planeta.
           </p>
         </div>
         
         <div className="grid md:grid-cols-2 gap-10">
-          {/* Áreas restritas para plantio */}
-          <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+          {/* Áreas restritas para plantio - com destaque visual de alerta */}
+          <div className="bg-red-100 p-6 rounded-lg border border-red-300">
             <div className="flex items-center gap-2 mb-4">
-              <AlertTriangle className="text-red-500 h-6 w-6" />
-              <h3 className="text-xl font-semibold text-raiz-gray">Onde NÃO Plantar</h3>
+              <AlertTriangle className="text-red-500 h-8 w-8" />
+              <h3 className="text-xl font-semibold text-raiz-gray">⚠️ Atenção: Onde NÃO plantar árvores</h3>
             </div>
             <ul className="space-y-3">
               {restricoes.map((restricao, index) => (
                 <li key={index} className="flex items-start gap-2">
-                  <MapPin className="text-red-500 h-5 w-5 mt-0.5 flex-shrink-0" />
-                  <span>{restricao}</span>
+                  <MapPin className="text-red-500 h-6 w-6 mt-0.5 flex-shrink-0" />
+                  <span className="text-base">{restricao}</span>
                 </li>
               ))}
             </ul>
           </div>
           
           {/* Benefícios */}
-          <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+          <div className="bg-green-100 p-6 rounded-lg border border-green-300">
             <div className="flex items-center gap-2 mb-4">
-              <Check className="text-green-600 h-6 w-6" />
+              <Check className="text-green-600 h-8 w-8" />
               <h3 className="text-xl font-semibold text-raiz-gray">Benefícios das Árvores</h3>
             </div>
             <ul className="space-y-3">
               {beneficios.map((beneficio, index) => (
                 <li key={index} className="flex items-start gap-2">
-                  <Check className="text-green-600 h-5 w-5 mt-0.5 flex-shrink-0" />
-                  <span>{beneficio}</span>
+                  <Check className="text-green-600 h-6 w-6 mt-0.5 flex-shrink-0" />
+                  <span className="text-base">{beneficio}</span>
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+        
+        <div className="mt-12 flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
+            <img 
+              src="https://images.unsplash.com/photo-1500673922987-e212871fec22" 
+              alt="Calçada com árvores em Recife" 
+              className="w-full h-64 object-cover rounded-lg"
+            />
+            <img 
+              src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86" 
+              alt="Árvores em calçada de Recife" 
+              className="w-full h-64 object-cover rounded-lg"
+            />
           </div>
         </div>
       </div>

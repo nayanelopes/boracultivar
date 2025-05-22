@@ -13,12 +13,40 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
+        {/* Hero Section */}
         <Hero />
         
-        {/* Added Who We Are section above InfoSection */}
-        <WhoWeAre />
-        
-        <InfoSection />
+        {/* Benefícios Section - Moved up as requested */}
+        <section className="section bg-green-100">
+          <div className="container px-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-center text-raiz-green-dark mb-8">Benefícios das Árvores</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                <div className="bg-raiz-green-light/20 p-4 rounded-full mb-4">
+                  <Check className="h-10 w-10 text-raiz-green-dark" />
+                </div>
+                <h3 className="text-lg font-semibold text-raiz-green-dark mb-2">Redução da Temperatura</h3>
+                <p className="text-raiz-gray">Árvores podem reduzir a temperatura local em até 8°C, criando um microclima mais agradável.</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                <div className="bg-raiz-green-light/20 p-4 rounded-full mb-4">
+                  <Check className="h-10 w-10 text-raiz-green-dark" />
+                </div>
+                <h3 className="text-lg font-semibold text-raiz-green-dark mb-2">Ar mais Limpo</h3>
+                <p className="text-raiz-gray">Uma única árvore adulta pode absorver até 22kg de CO₂ por ano e filtrar poluentes do ar.</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center sm:col-span-2 lg:col-span-1 sm:max-w-md sm:mx-auto lg:max-w-none">
+                <div className="bg-raiz-green-light/20 p-4 rounded-full mb-4">
+                  <Check className="h-10 w-10 text-raiz-green-dark" />
+                </div>
+                <h3 className="text-lg font-semibold text-raiz-green-dark mb-2">Bem-estar</h3>
+                <p className="text-raiz-gray">Áreas verdes reduzem o estresse, melhoram a saúde mental e incentivam atividades ao ar livre.</p>
+              </div>
+            </div>
+          </div>
+        </section>
         
         {/* Como funciona */}
         <section className="section bg-white">
@@ -59,13 +87,20 @@ const Index = () => {
             
             <div className="mt-8 sm:mt-10 text-center">
               <Link to="/solicitar-plantio" className="btn-primary flex items-center gap-2 mx-auto w-fit text-sm sm:text-base px-4 py-2">
-                <CapibaraIcon />
-                Solicitar Agora
+                <TreeIcon />
+                Solicitar plantio gratuito
                 <ArrowRight className="h-4 w-4" />
+                <span className="bg-white text-raiz-green-dark text-xs px-2 py-0.5 rounded-full ml-1">Serviço 100% gratuito — oferecido pela Prefeitura</span>
               </Link>
             </div>
           </div>
         </section>
+        
+        {/* Who We Are section */}
+        <WhoWeAre />
+        
+        {/* Saiba Mais section with updated content */}
+        <InfoSection />
         
         {/* Sistema de Gamificação */}
         <section className="section bg-raiz-green-light/10">
@@ -125,13 +160,12 @@ const Index = () => {
   );
 };
 
-// Componente para o ícone da capivara
-const CapibaraIcon = () => (
-  <svg viewBox="0 0 100 100" width="18" height="18" fill="currentColor">
-    <path d="M85,50 C85,25 70,15 50,15 C30,15 15,25 15,50 C15,75 30,85 50,85 C70,85 85,75 85,50 Z" />
-    <circle cx="30" cy="40" r="4" />
-    <circle cx="70" cy="40" r="4" />
-    <path d="M40,55 C43,60 50,65 60,55" fill="none" stroke="currentColor" strokeWidth="2" />
+// Componente para o ícone da árvore
+const TreeIcon = () => (
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22V12" />
+    <path d="M9 10V7c0-1.1.9-2 2-2h2a2 2 0 012 2v3" />
+    <path d="M5 16c0-2.8 2.2-5 5-5h4c2.8 0 5 2.2 5 5v6H5z" />
   </svg>
 );
 
