@@ -6,7 +6,7 @@ import InfoSection from '@/components/InfoSection';
 import Footer from '@/components/Footer';
 import WhoWeAre from '@/components/WhoWeAre';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Trophy, Star, BadgePercent } from 'lucide-react';
+import { ArrowRight, Trophy, Star, BadgePercent, Check } from 'lucide-react';
 
 const Index = () => {
   return (
