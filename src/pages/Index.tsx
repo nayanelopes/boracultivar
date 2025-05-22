@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import InfoSection from '@/components/InfoSection';
 import Footer from '@/components/Footer';
 import WhoWeAre from '@/components/WhoWeAre';
+import ChatbaseWidget from '@/components/ChatbaseWidget'; // <-- Adicione esta linha
 import { Link } from 'react-router-dom';
 import { ArrowRight, Trophy, Star, BadgePercent, Check, Leaf } from 'lucide-react';
 
