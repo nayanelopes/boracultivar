@@ -77,19 +77,13 @@ const Navbar = () => {
           <span className="font-bold text-lg sm:text-xl text-raiz-green-dark">Raiz Urbana</span>
         </Link>
         
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - REMOVED "Quem Somos" and "Recompensas" */}
         <nav className="hidden md:flex items-center gap-4 lg:gap-6">
           <Link to="/" className="text-sm lg:text-base text-raiz-gray hover:text-raiz-green-dark transition-colors">
             Início
           </Link>
-          <Link to="/quem-somos" className="text-sm lg:text-base text-raiz-gray hover:text-raiz-green-dark transition-colors">
-            Quem Somos
-          </Link>
           <Link to="/consultar-status" className="text-sm lg:text-base text-raiz-gray hover:text-raiz-green-dark transition-colors">
             Consultar Status
-          </Link>
-          <Link to="/gamificacao" className="text-sm lg:text-base text-raiz-gray hover:text-raiz-green-dark transition-colors">
-            Recompensas
           </Link>
           <Link to="/solicitar-plantio" className="btn-primary text-sm px-3 py-1.5 lg:px-4 lg:py-2">
             Solicitar Plantio
@@ -136,7 +130,7 @@ const Navbar = () => {
         </button>
       </div>
       
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - REMOVED "Quem Somos" and "Recompensas" */}
       <div className={cn(
         "md:hidden w-full absolute bg-white shadow-md transition-all duration-300 ease-in-out",
         isMenuOpen ? "max-h-[calc(100vh-3.5rem)] py-4 opacity-100 overflow-auto" : "max-h-0 py-0 opacity-0 overflow-hidden"
@@ -150,25 +144,11 @@ const Navbar = () => {
             Início
           </Link>
           <Link 
-            to="/quem-somos" 
-            className="text-raiz-gray hover:text-raiz-green-dark transition-colors px-2 py-2"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Quem Somos
-          </Link>
-          <Link 
             to="/consultar-status" 
             className="text-raiz-gray hover:text-raiz-green-dark transition-colors px-2 py-2"
             onClick={() => setIsMenuOpen(false)}
           >
             Consultar Status
-          </Link>
-          <Link 
-            to="/gamificacao"
-            className="text-raiz-gray hover:text-raiz-green-dark transition-colors px-2 py-2"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Recompensas
           </Link>
           <Link 
             to="/solicitar-plantio" 

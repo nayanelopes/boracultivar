@@ -28,6 +28,18 @@ const InfoSection = () => {
       <div className="container">
         <h2 className="text-3xl font-bold text-center text-raiz-green-dark mb-12">Saiba Mais Sobre Arborização</h2>
         
+        <div className="mb-10 mx-auto max-w-3xl text-raiz-gray">
+          <p className="mb-4">
+            Urban afforestation is one of the most effective ways to improve air quality. Trees help filter pollutants, increase humidity and reduce temperature, making the environment healthier and more balanced. Air quality refers to the purity of the air we breathe, and is assessed by the amount of pollutants present in the atmosphere, such as fine dust (PM2.5 and PM10), carbon monoxide, nitrogen dioxide and ozone.
+          </p>
+          <p className="mb-4">
+            When these levels are high, they can cause respiratory problems, irritations and aggravate chronic diseases. Unfortunately, more than 90% of the world's population lives in places with poor air quality. In Brazil, forest fires and urban pollution have contributed to this problem. In September 2024, São Paulo had one of the worst air quality levels in the world.
+          </p>
+          <p className="mb-4">
+            Therefore, planting trees is a simple but powerful action to take care of the health of people and the planet.
+          </p>
+        </div>
+        
         <div className="grid md:grid-cols-2 gap-10">
           {/* Áreas restritas para plantio */}
           <div className="bg-red-50 p-6 rounded-lg border border-red-200">

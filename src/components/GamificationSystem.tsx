@@ -48,7 +48,7 @@ const GamificationSystem = () => {
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {recompensas.map((reward) => (
+              {recompensas.map((reward, index) => (
                 <div key={reward.id} className="border rounded-lg p-4 flex flex-col">
                   <div className="flex justify-between items-start mb-2">
                     <h4 className="font-medium text-raiz-green-dark">{reward.nome}</h4>
@@ -57,19 +57,23 @@ const GamificationSystem = () => {
                   <div className="text-sm text-raiz-gray mb-3">
                     Válido por 30 dias após o resgate
                   </div>
-                  <div className="mt-auto flex items-center justify-between">
-                    <span className="font-semibold flex items-center gap-1">
-                      <Star className="h-4 w-4 text-raiz-earth" fill="currentColor" />
-                      {reward.custo} moedas
-                    </span>
-                    <Button
-                      size="sm"
-                      className={userMoedas >= reward.custo ? "bg-raiz-green" : "bg-gray-300"}
-                      disabled={userMoedas < reward.custo}
-                      onClick={() => handleRedeemReward(reward.id, reward.custo)}
-                    >
-                      Resgatar
-                    </Button>
+                  <div className="mt-auto flex flex-col">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-semibold flex items-center gap-1">
+                        <Star className="h-4 w-4 text-raiz-earth" fill="currentColor" />
+                        {reward.custo} moedas
+                      </span>
+                      <Button
+                        size="sm"
+                        className={index < 2 ? "bg-gray-300" : (userMoedas >= reward.custo ? "bg-raiz-green" : "bg-gray-300")}
+                        disabled={true}
+                      >
+                        Resgatar
+                      </Button>
+                    </div>
+                    <p className="text-xs text-raiz-gray italic text-center">
+                      Cadastre-se e solicite um plantio para ver mais.
+                    </p>
                   </div>
                 </div>
               ))}

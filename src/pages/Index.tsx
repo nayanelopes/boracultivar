@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import InfoSection from '@/components/InfoSection';
 import Footer from '@/components/Footer';
+import WhoWeAre from '@/components/WhoWeAre';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Trophy, Star, BadgePercent } from 'lucide-react';
 
@@ -13,6 +14,9 @@ const Index = () => {
       <Navbar />
       <main className="flex-grow">
         <Hero />
+        
+        {/* Added Who We Are section above InfoSection */}
+        <WhoWeAre />
         
         <InfoSection />
         
@@ -78,6 +82,9 @@ const Index = () => {
                 <p className="text-sm sm:text-base text-raiz-gray mb-3 sm:mb-4">
                   Ganhe moedas Capiba para cada ação sustentável realizada. Use-as para resgatar recompensas!
                 </p>
+                <p className="text-xs text-raiz-gray italic mt-auto">
+                  Cadastre-se e solicite um plantio para ver mais.
+                </p>
               </div>
               
               <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
@@ -86,6 +93,9 @@ const Index = () => {
                 <p className="text-sm sm:text-base text-raiz-gray mb-3 sm:mb-4">
                   Complete desafios especiais e ganhe bônus de moedas Capiba. Fique atento às missões semanais!
                 </p>
+                <p className="text-xs text-raiz-gray italic mt-auto">
+                  Cadastre-se e solicite um plantio para ver mais.
+                </p>
               </div>
               
               <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm flex flex-col items-center text-center sm:col-span-2 md:col-span-1 sm:max-w-md sm:mx-auto md:max-w-none">
@@ -93,6 +103,9 @@ const Index = () => {
                 <h3 className="text-lg sm:text-xl font-semibold text-raiz-green-dark mb-2">Cupons de Desconto</h3>
                 <p className="text-sm sm:text-base text-raiz-gray mb-3 sm:mb-4">
                   Troque suas moedas por cupons de desconto da Uber, 99Pop e outros parceiros que apoiam nossa causa!
+                </p>
+                <p className="text-xs text-raiz-gray italic mt-auto">
+                  Cadastre-se e solicite um plantio para ver mais.
                 </p>
               </div>
             </div>
