@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -56,8 +55,10 @@ const Navbar = () => {
     )}>
       <div className="container flex h-16 items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2">
-          <Leaf className="h-6 w-6 text-green-600" fill="currentColor" strokeWidth={1.5} />
-          <span className="font-bold text-xl text-green-800">Cultiva Recife</span>
+          <div className="bg-green-600 p-1 rounded-full">
+            <Leaf className="h-5 w-5 text-white" fill="currentColor" strokeWidth={1} />
+          </div>
+          <span className="font-bold text-xl text-green-700">Bora cultivar?</span>
         </Link>
         
         {/* Desktop Navigation */}
@@ -69,7 +70,7 @@ const Navbar = () => {
             Consultar Status
           </Link>
           <Link to="/solicitar-plantio" className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-full text-sm font-medium transition-colors">
-            Solicitar Plantio
+            Quero plantar
           </Link>
           
           {usuario ? (
@@ -138,7 +139,7 @@ const Navbar = () => {
             className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-full text-center transition-colors"
             onClick={() => setIsMenuOpen(false)}
           >
-            Solicitar Plantio
+            Quero plantar
           </Link>
           
           {usuario ? (
