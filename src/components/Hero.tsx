@@ -65,8 +65,8 @@ const Hero = () => {
           >
             <div className="relative rounded-3xl overflow-hidden shadow-xl">
               <img 
-                src="/lovable-uploads/2c4eb92c-2862-451e-acd9-5f44c3a13972.png" 
-                alt="Árvores na cidade de Recife" 
+                src="/lovable-uploads/6f47ea23-d7bf-4d80-a75c-8cc6ae80c385.png" 
+                alt="Trabalhadores plantando árvores em Recife" 
                 className="w-full h-auto object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-tr from-green-800/20 to-transparent"></div>
