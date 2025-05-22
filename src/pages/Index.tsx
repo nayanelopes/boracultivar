@@ -52,38 +52,6 @@ const Index = () => {
           <div className="absolute bottom-0 left-1/4 w-60 h-60 bg-green-500 rounded-full -mb-40 opacity-10"></div>
         </section>
         
-        {/* Benefícios Section */}
-        <section className="section bg-green-100">
-          <div className="container px-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-800 mb-8">Benefícios das Árvores</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
-                <div className="bg-green-100 p-4 rounded-full mb-4">
-                  <Check className="h-12 w-12 text-green-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-green-800 mb-2">Redução da Temperatura</h3>
-                <p className="text-gray-600">Árvores podem reduzir a temperatura local em até 8°C, criando um microclima mais agradável.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
-                <div className="bg-green-100 p-4 rounded-full mb-4">
-                  <Check className="h-12 w-12 text-green-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-green-800 mb-2">Ar mais Limpo</h3>
-                <p className="text-gray-600">Uma única árvore adulta pode absorver até 22kg de CO₂ por ano e filtrar poluentes do ar.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center sm:col-span-2 lg:col-span-1 sm:max-w-md sm:mx-auto lg:max-w-none">
-                <div className="bg-green-100 p-4 rounded-full mb-4">
-                  <Check className="h-12 w-12 text-green-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-green-800 mb-2">Bem-estar</h3>
-                <p className="text-gray-600">Áreas verdes reduzem o estresse, melhoram a saúde mental e incentivam atividades ao ar livre.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        
         {/* Como funciona */}
         <section className="section bg-white">
           <div className="container px-4">
@@ -131,7 +99,38 @@ const Index = () => {
             </div>
           </div>
         </section>
-        
+
+ {/* Benefícios Section */}
+        <section className="section bg-green-100">
+          <div className="container px-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-800 mb-8">Benefícios das Árvores</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                <div className="bg-green-100 p-4 rounded-full mb-4">
+                  <Check className="h-12 w-12 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-green-800 mb-2">Redução da Temperatura</h3>
+                <p className="text-gray-600">Árvores podem reduzir a temperatura local em até 8°C, criando um microclima mais agradável.</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                <div className="bg-green-100 p-4 rounded-full mb-4">
+                  <Check className="h-12 w-12 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-green-800 mb-2">Ar mais Limpo</h3>
+                <p className="text-gray-600">Uma única árvore adulta pode absorver até 22kg de CO₂ por ano e filtrar poluentes do ar.</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center sm:col-span-2 lg:col-span-1 sm:max-w-md sm:mx-auto lg:max-w-none">
+                <div className="bg-green-100 p-4 rounded-full mb-4">
+                  <Check className="h-12 w-12 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-green-800 mb-2">Bem-estar</h3>
+                <p className="text-gray-600">Áreas verdes reduzem o estresse, melhoram a saúde mental e incentivam atividades ao ar livre.</p>
+              </div>
+            </div>
+          </div>
+        </section>
         {/* Where NOT to plant - New warning section */}
         <section className="section bg-amber-100">
           <div className="container px-4">
