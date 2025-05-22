@@ -161,7 +161,7 @@ const Index = () => {
               </div>
               <div className="rounded-lg overflow-hidden shadow">
                 <img 
-                  src="https://images.unsplash.com/photo-1500673922987-e212871fec22" 
+                  src="https://s2-g1.glbimg.com/2wn6q-nGeU-1-cEgzZ81ybdWgCA=/0x0:1280x720/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2019/U/g/FfZCtKQIOkIYVUsj46xA/whatsapp-image-2019-01-28-at-10.51.22.jpeg" 
                   alt="Calçada arborizada em Recife" 
                   className="w-full h-full object-cover"
                 />
