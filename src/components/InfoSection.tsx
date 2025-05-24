@@ -49,7 +49,7 @@ const InfoSection = () => {
           
           <div className="flex-1 flex items-center justify-center">
             <img 
-              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" 
+              src="https://steemitimages.com/DQmYmZwdPjv5fGJ9FkxevUZrtSDBM8j2Bqfje4aiuEpqXFG/DSC06688.JPG" 
               alt="Árvores urbanas" 
               className="rounded-xl shadow-md max-w-full h-auto"
             />
