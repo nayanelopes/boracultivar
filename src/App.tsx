@@ -11,6 +11,7 @@ import Gamificacao from "./pages/Gamificacao";
 import NotFound from "./pages/NotFound";
 import QuemSomos from "./pages/QuemSomos";
 import Autenticacao from "./pages/Autenticacao";
+import MeuPerfil from "./pages/MeuPerfil";
 import { useState } from 'react';
 
 // Remove App.css import
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/gamificacao" element={<Gamificacao />} />
             <Route path="/quem-somos" element={<QuemSomos />} />
             <Route path="/autenticacao" element={<Autenticacao />} />
+            <Route path="/meu-perfil" element={<MeuPerfil />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

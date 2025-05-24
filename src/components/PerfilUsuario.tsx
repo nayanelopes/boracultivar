@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { User, Mail, Bell } from 'lucide-react';
+import { User, Mail, Bell, Calendar } from 'lucide-react';
 
 interface PreferenciaNotificacoes {
   atualizacoesPlantio: boolean;
@@ -16,6 +16,7 @@ interface PreferenciaNotificacoes {
 interface Usuario {
   nome: string;
   email: string;
+  dataNascimento?: string;
   isLogado: boolean;
   preferencias: PreferenciaNotificacoes;
 }
@@ -24,6 +25,7 @@ const PerfilUsuario = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
   const [preferencias, setPreferencias] = useState<PreferenciaNotificacoes>({
     atualizacoesPlantio: true,
     reclamacoesArvores: false,
@@ -40,6 +42,7 @@ const PerfilUsuario = () => {
         setUsuario(usuarioParsed);
         setNome(usuarioParsed.nome || '');
         setEmail(usuarioParsed.email || '');
+        setDataNascimento(usuarioParsed.dataNascimento || '');
         if (usuarioParsed.preferencias) {
           setPreferencias(usuarioParsed.preferencias);
         }
@@ -67,6 +70,7 @@ const PerfilUsuario = () => {
           ...usuario,
           nome,
           email,
+          dataNascimento,
           preferencias
         };
         
@@ -91,8 +95,8 @@ const PerfilUsuario = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-sm">
-      <h2 className="text-xl font-bold mb-6 text-raiz-green-dark">Meu Perfil</h2>
+    <div className="bg-white rounded-lg shadow-sm p-6">
+      <h2 className="text-xl font-bold mb-6 text-raiz-green-dark">Editar Perfil</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
@@ -121,6 +125,20 @@ const PerfilUsuario = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="pl-10"
               required
+            />
+          </div>
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="perfil-data-nascimento">Data de nascimento</Label>
+          <div className="relative">
+            <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              id="perfil-data-nascimento"
+              type="date"
+              value={dataNascimento}
+              onChange={(e) => setDataNascimento(e.target.value)}
+              className="pl-10"
             />
           </div>
         </div>

@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, X, User, Leaf } from 'lucide-react';
+import { Menu, X, User, Leaf, UserPen } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -83,6 +84,13 @@ const Navbar = () => {
                 <div className="p-2 text-sm text-gray-700">
                   <p className="px-4 py-2 font-medium">{usuario.email}</p>
                   <hr className="my-1" />
+                  <Link 
+                    to="/meu-perfil"
+                    className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-green-50 text-gray-700 hover:text-green-800 rounded-md transition-colors"
+                  >
+                    <UserPen size={16} />
+                    Meu Perfil
+                  </Link>
                   <button 
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-2 hover:bg-green-50 text-gray-700 hover:text-green-800 rounded-md transition-colors"
@@ -145,6 +153,14 @@ const Navbar = () => {
           {usuario ? (
             <div className="border-t pt-3">
               <p className="px-2 py-1 text-sm text-gray-700">{usuario.email}</p>
+              <Link 
+                to="/meu-perfil"
+                className="flex items-center gap-2 px-2 py-2 text-gray-700 hover:text-green-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <UserPen size={16} />
+                Meu Perfil
+              </Link>
               <button 
                 onClick={handleLogout}
                 className="w-full text-left px-2 py-2 text-gray-700 hover:text-green-600 transition-colors"
