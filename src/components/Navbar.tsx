@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, X, User, Leaf, UserPen } from 'lucide-react';
+import { Menu, X, User, Leaf, UserPen, Trophy } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -78,6 +77,12 @@ const Navbar = () => {
           <Link to="/consultar-status" className="text-base text-gray-700 hover:text-green-600 transition-colors">
             Consultar Status
           </Link>
+          {usuario && (
+            <Link to="/hall-da-floresta" className="flex items-center gap-2 text-base text-gray-700 hover:text-green-600 transition-colors">
+              <Trophy size={18} />
+              Hall da Floresta
+            </Link>
+          )}
           <Link to="/solicitar-plantio" className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-full text-sm font-medium transition-colors">
             Quero plantar
           </Link>
@@ -150,6 +155,16 @@ const Navbar = () => {
           >
             Consultar Status
           </Link>
+          {usuario && (
+            <Link 
+              to="/hall-da-floresta" 
+              className="flex items-center gap-2 text-gray-700 hover:text-green-600 transition-colors px-2 py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <Trophy size={18} />
+              Hall da Floresta
+            </Link>
+          )}
           <Link 
             to="/solicitar-plantio" 
             className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-full text-center transition-colors"
