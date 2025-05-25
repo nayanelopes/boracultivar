@@ -3,6 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, X, User, Leaf, UserPen } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -75,31 +83,31 @@ const Navbar = () => {
           </Link>
           
           {usuario ? (
-            <div className="relative ml-2 group">
-              <button className="flex items-center gap-2 text-green-800 hover:text-green-600 transition-colors">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-2 text-green-800 hover:text-green-600 transition-colors outline-none">
                 <span className="text-sm">{usuario.nome}</span>
                 <User size={18} />
-              </button>
-              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md hidden group-hover:block">
-                <div className="p-2 text-sm text-gray-700">
-                  <p className="px-4 py-2 font-medium">{usuario.email}</p>
-                  <hr className="my-1" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-48 bg-white shadow-lg border z-50">
+                <DropdownMenuLabel className="text-sm text-gray-700">{usuario.email}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
                   <Link 
                     to="/meu-perfil"
-                    className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-green-50 text-gray-700 hover:text-green-800 rounded-md transition-colors"
+                    className="flex items-center gap-2 w-full cursor-pointer"
                   >
                     <UserPen size={16} />
                     Meu Perfil
                   </Link>
-                  <button 
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 hover:bg-green-50 text-gray-700 hover:text-green-800 rounded-md transition-colors"
-                  >
-                    Sair
-                  </button>
-                </div>
-              </div>
-            </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={handleLogout}
+                  className="cursor-pointer"
+                >
+                  Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Link to="/autenticacao" className="flex items-center gap-2 text-green-800 hover:text-green-600 transition-colors ml-2">
               <User size={18} />
