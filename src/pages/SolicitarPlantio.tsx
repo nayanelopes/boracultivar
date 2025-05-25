@@ -1,21 +1,25 @@
-
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import RequestForm from '@/components/RequestForm';
 import { ArrowLeft, Camera, LogIn, Users } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from '@/components/ui/sonner';
+import * as tmImage from "@teachablemachine/image";
 
 const SolicitarPlantio = () => {
   const [isLogado, setIsLogado] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
-  
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [loadingIA, setLoadingIA] = useState(false);
+  const [aptoIA, setAptoIA] = useState<boolean | null>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const modelURL = "https://teachablemachine.withgoogle.com/models/04ijzUI11/";
+  const [model, setModel] = useState<tmImage.CustomMobileNet | null>(null);
+
   useEffect(() => {
-    // Verificar se o usuário está logado
     const usuarioLocal = localStorage.getItem('raiz_urbana_usuario');
     if (usuarioLocal) {
       try {
@@ -26,18 +30,59 @@ const SolicitarPlantio = () => {
       }
     }
   }, []);
-  
+
+  const loadModel = async () => {
+    if (!model) {
+      const loadedModel = await tmImage.load(modelURL + "model.json", modelURL + "metadata.json");
+      setModel(loadedModel);
+    }
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+      setAptoIA(null); // Reset resultado anterior
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const predictImage = async () => {
+    if (!model || !imageRef.current) return;
+
+    setLoadingIA(true);
+    const prediction = await model.predict(imageRef.current);
+
+    const result = prediction.reduce((prev, current) =>
+      current.probability > prev.probability ? current : prev
+    );
+
+    if (result.className === "Apto para plantio") {
+      setAptoIA(true);
+      toast.success("🌱 Apto para plantio! Sua solicitação será analisada pela equipe.");
+    } else {
+      setAptoIA(false);
+      toast.error("🚫 Inapto para plantio. Verifique os critérios ou envie outra imagem.");
+    }
+
+    setLoadingIA(false);
+  };
+
+  const handleSubmitIA = async () => {
+    await loadModel();
+    await predictImage();
+  };
+
   const handleRedirectToLogin = () => {
-    toast({
-      title: "Login necessário",
-      description: "Você precisa fazer login para solicitar um plantio.",
-    });
+    toast.error("Você precisa fazer login para solicitar um plantio.");
     navigate('/autenticacao');
   };
 
   const handleBoraPlantarJuntos = () => {
-    toast({
-      title: "Vamos plantar juntos!",
+    toast("Vamos plantar juntos!", {
       description: "Redirecionando para criar sua conta...",
     });
     navigate('/autenticacao');
@@ -52,14 +97,14 @@ const SolicitarPlantio = () => {
             <ArrowLeft className="h-4 w-4" />
             <span>Voltar à página inicial</span>
           </Link>
-          
+
           <h1 className="text-3xl md:text-4xl font-bold text-raiz-green-dark mb-4">Solicitar Plantio de Árvore</h1>
-          
+
           <p className="text-raiz-gray mb-3 max-w-3xl">
             Preencha o formulário abaixo para solicitar o plantio de uma árvore. Nossa equipe técnica
             analisará o pedido e entrará em contato para agendar uma visita ao local.
           </p>
-          
+
           <div className="bg-white rounded-lg p-4 mb-8 flex items-center gap-3 border-l-4 border-raiz-green shadow-sm max-w-3xl">
             <Camera className="h-6 w-6 text-raiz-green flex-shrink-0" />
             <p className="text-sm text-raiz-gray">
@@ -67,9 +112,47 @@ const SolicitarPlantio = () => {
               Isso nos ajuda a avaliar melhor o espaço e agilizar sua solicitação.
             </p>
           </div>
-          
+
+          {/* Upload e análise com IA */}
+          <div className="bg-white rounded-lg p-4 border border-raiz-green/40 mb-8 shadow-sm max-w-3xl">
+            <h3 className="text-md font-semibold text-raiz-green-dark mb-3">
+              Enviar imagem do local para análise com IA
+            </h3>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="mb-3 block text-sm text-gray-600"
+            />
+
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                ref={imageRef}
+                className="w-full max-w-xs rounded-lg border border-gray-300 mb-3"
+              />
+            )}
+
+            <Button
+              onClick={handleSubmitIA}
+              disabled={!imagePreview || loadingIA}
+              className="bg-raiz-green-dark hover:bg-raiz-green-light text-white"
+            >
+              {loadingIA ? "Analisando imagem..." : "Analisar imagem com IA"}
+            </Button>
+          </div>
+
+          {/* Lógica de exibição condicional */}
           {isLogado ? (
-            <RequestForm />
+            aptoIA === null || aptoIA === true ? (
+              <RequestForm />
+            ) : (
+              <div className="text-center text-raiz-gray">
+                Envie uma nova imagem válida para prosseguir com o formulário.
+              </div>
+            )
           ) : (
             <div className="bg-white rounded-lg p-6 shadow-sm max-w-3xl">
               <div className="text-center py-8">
@@ -107,3 +190,4 @@ const SolicitarPlantio = () => {
 };
 
 export default SolicitarPlantio;
+
