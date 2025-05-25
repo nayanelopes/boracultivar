@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import RequestForm from '@/components/RequestForm';
-import { ArrowLeft, Camera, LogIn } from 'lucide-react';
+import { ArrowLeft, Camera, LogIn, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -31,6 +31,14 @@ const SolicitarPlantio = () => {
     toast({
       title: "Login necessário",
       description: "Você precisa fazer login para solicitar um plantio.",
+    });
+    navigate('/autenticacao');
+  };
+
+  const handleBoraPlantarJuntos = () => {
+    toast({
+      title: "Vamos plantar juntos!",
+      description: "Redirecionando para criar sua conta...",
     });
     navigate('/autenticacao');
   };
@@ -71,13 +79,23 @@ const SolicitarPlantio = () => {
                 <p className="text-raiz-gray mb-6">
                   É necessário ter uma conta para acompanhar o status do seu pedido e receber notificações sobre o plantio.
                 </p>
-                <Button
-                  onClick={handleRedirectToLogin}
-                  className="bg-raiz-green-dark hover:bg-raiz-green-light flex items-center gap-2 mx-auto"
-                >
-                  <LogIn className="h-4 w-4" />
-                  <span>Entrar ou Cadastrar</span>
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button
+                    onClick={handleBoraPlantarJuntos}
+                    className="bg-raiz-green-dark hover:bg-raiz-green-light flex items-center gap-2"
+                  >
+                    <Users className="h-4 w-4" />
+                    <span>Bora plantar juntos?</span>
+                  </Button>
+                  <Button
+                    onClick={handleRedirectToLogin}
+                    variant="outline"
+                    className="border-raiz-green-dark text-raiz-green-dark hover:bg-raiz-green-light/10 flex items-center gap-2"
+                  >
+                    <LogIn className="h-4 w-4" />
+                    <span>Já tenho uma conta</span>
+                  </Button>
+                </div>
               </div>
             </div>
           )}

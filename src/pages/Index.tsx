@@ -1,10 +1,10 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import InfoSection from '@/components/InfoSection';
 import Footer from '@/components/Footer';
 import WhoWeAre from '@/components/WhoWeAre';
+import ComoFuncionaCarousel from '@/components/ComoFuncionaCarousel';
 import ChatbaseWidget from '@/components/ChatbaseWidget'; // <-- Adicione esta linha
 import { Link } from 'react-router-dom';
 import { ArrowRight, Trophy, Star, BadgePercent, Check, Leaf } from 'lucide-react';
@@ -62,55 +62,10 @@ const Index = () => {
           <div className="absolute bottom-0 left-1/4 w-60 h-60 bg-green-500 rounded-full -mb-40 opacity-10"></div>
         </section>
         
-        {/* Como funciona */}
-        <section className="section bg-white">
-          <div className="container px-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-800 mb-8 sm:mb-12">Como Funciona</h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-              <div className="bg-green-50 p-6 rounded-lg text-center hover:shadow-md transition-shadow">
-                <div className="bg-green-600 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold mx-auto mb-4">
-                  1
-                </div>
-                <h3 className="text-xl font-semibold text-green-800 mb-3">Solicite</h3>
-                <p className="text-gray-600">
-                  Preencha o formulário de solicitação com seus dados e o endereço onde deseja o plantio.
-                </p>
-              </div>
-              
-              <div className="bg-green-50 p-6 rounded-lg text-center hover:shadow-md transition-shadow">
-                <div className="bg-green-600 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold mx-auto mb-4">
-                  2
-                </div>
-                <h3 className="text-xl font-semibold text-green-800 mb-3">Aguarde</h3>
-                <p className="text-gray-600">
-                  Nossa equipe técnica fará uma avaliação do local para verificar a viabilidade do plantio.
-                </p>
-              </div>
-              
-              <div className="bg-green-50 p-6 rounded-lg text-center hover:shadow-md transition-shadow">
-                <div className="bg-green-600 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold mx-auto mb-4">
-                  3
-                </div>
-                <h3 className="text-xl font-semibold text-green-800 mb-3">Celebrate</h3>
-                <p className="text-gray-600">
-                  Após o plantio, cuide da sua árvore e compartilhe fotos com a gente. Sua cidade agradece!
-                </p>
-              </div>
-            </div>
-            
-            <div className="mt-10 text-center">
-              <Link to="/solicitar-plantio" className="bg-green-600 text-white hover:bg-green-700 flex items-center gap-2 mx-auto w-fit px-6 py-3 rounded-full font-bold transition-colors">
-                <TreeIcon />
-                Solicitar plantio gratuito
-                <ArrowRight className="h-4 w-4" />
-                <span className="bg-white text-green-700 text-xs px-2 py-0.5 rounded-full ml-1">Serviço 100% gratuito — oferecido pela Prefeitura</span>
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* Como funciona - Agora usando carousel */}
+        <ComoFuncionaCarousel />
 
- {/* Benefícios Section */}
+        {/* Benefícios Section */}
         <section className="section bg-green-100">
           <div className="container px-4">
             <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-800 mb-8">Benefícios das Árvores</h2>
@@ -141,6 +96,7 @@ const Index = () => {
             </div>
           </div>
         </section>
+        
         {/* Where NOT to plant - New warning section */}
         <section className="section bg-amber-100">
           <div className="container px-4">
