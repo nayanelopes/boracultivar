@@ -33,8 +33,6 @@ const App = () => {
             <Route path="/autenticacao" element={<Autenticacao />} />
             <Route path="/meu-perfil" element={<MeuPerfil />} />
             <Route path="/hall-da-floresta" element={<HallDaFloresta />} />
-
-            {/* ✅ Nova rota para a IA */}
             <Route path="/verificar-local" element={<TeachableMachine />} />
 
             <Route path="*" element={<NotFound />} />
