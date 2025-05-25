@@ -12,13 +12,10 @@ import QuemSomos from "./pages/QuemSomos";
 import Autenticacao from "./pages/Autenticacao";
 import MeuPerfil from "./pages/MeuPerfil";
 import HallDaFloresta from "./pages/HallDaFloresta";
+import TeachableMachine from "./pages/TeachableMachine"; // ✅ nova importação
 import { useState } from 'react';
 
-// Remove App.css import
-// import './App.css';
-
 const App = () => {
-  // Move QueryClient creation inside the component
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -36,7 +33,10 @@ const App = () => {
             <Route path="/autenticacao" element={<Autenticacao />} />
             <Route path="/meu-perfil" element={<MeuPerfil />} />
             <Route path="/hall-da-floresta" element={<HallDaFloresta />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
+            {/* ✅ Nova rota para a IA */}
+            <Route path="/verificar-local" element={<TeachableMachine />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -45,4 +45,9 @@ const App = () => {
   );
 };
 
-export default App;
+
+
+
+
+
+
