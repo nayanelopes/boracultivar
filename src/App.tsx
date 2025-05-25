@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import QuemSomos from "./pages/QuemSomos";
 import Autenticacao from "./pages/Autenticacao";
 import MeuPerfil from "./pages/MeuPerfil";
+import HallDaFloresta from "./pages/HallDaFloresta";
 import { useState } from 'react';
 
 // Remove App.css import
@@ -35,6 +35,7 @@ const App = () => {
             <Route path="/quem-somos" element={<QuemSomos />} />
             <Route path="/autenticacao" element={<Autenticacao />} />
             <Route path="/meu-perfil" element={<MeuPerfil />} />
+            <Route path="/hall-da-floresta" element={<HallDaFloresta />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

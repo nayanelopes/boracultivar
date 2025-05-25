@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Leaf, Coins, UserPen } from 'lucide-react';
+import UserLevelDisplay from './UserLevelSystem';
 
 interface Usuario {
   nome: string;
@@ -51,6 +51,12 @@ const PerfilInfo = ({ onEditProfile }: PerfilInfoProps) => {
         </Avatar>
         <h2 className="text-2xl font-bold text-raiz-green-dark mb-2">{usuario.nome}</h2>
         <p className="text-gray-600">{usuario.email}</p>
+      </div>
+
+      {/* Nível do Usuário */}
+      <div className="mb-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
+        <h3 className="text-lg font-semibold text-raiz-green-dark mb-4">Seu Nível de Plantio</h3>
+        <UserLevelDisplay treesPlanted={5} showProgress={true} />
       </div>
 
       {/* Estatísticas */}
