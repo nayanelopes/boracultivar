@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import RequestForm from '@/components/RequestForm';
-import { ArrowLeft, Camera, LogIn, Users } from 'lucide-react';
+import { ArrowLeft, Camera, LogIn, Users, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import * as tmImage from "@teachablemachine/image";
@@ -45,7 +45,7 @@ const SolicitarPlantio = () => {
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result as string);
-      setAptoIA(null); // Reset resultado anterior
+      setAptoIA(null);
     };
     reader.readAsDataURL(file);
   };
@@ -108,20 +108,20 @@ const SolicitarPlantio = () => {
           <div className="bg-white rounded-lg p-4 mb-8 flex items-center gap-3 border-l-4 border-raiz-green shadow-sm max-w-3xl">
             <Camera className="h-6 w-6 text-raiz-green flex-shrink-0" />
             <p className="text-sm text-raiz-gray">
-              <strong>Novidade:</strong> Agora você pode enviar uma foto do local diretamente pelo seu celular! 
-              Isso nos ajuda a avaliar melhor o espaço e agilizar sua solicitação.
+              <strong>Novidade:</strong> Agora você pode tirar uma foto do local diretamente pelo celular ou enviar uma imagem da galeria.
             </p>
           </div>
 
           {/* Upload e análise com IA */}
           <div className="bg-white rounded-lg p-4 border border-raiz-green/40 mb-8 shadow-sm max-w-3xl">
             <h3 className="text-md font-semibold text-raiz-green-dark mb-3">
-              Enviar imagem do local para análise com IA
+              Enviar ou capturar imagem do local
             </h3>
 
             <input
               type="file"
               accept="image/*"
+              capture="environment"
               onChange={handleImageUpload}
               className="mb-3 block text-sm text-gray-600"
             />
@@ -138,13 +138,23 @@ const SolicitarPlantio = () => {
             <Button
               onClick={handleSubmitIA}
               disabled={!imagePreview || loadingIA}
-              className="bg-raiz-green-dark hover:bg-raiz-green-light text-white"
+              className="bg-raiz-green-dark hover:bg-raiz-green-light text-white flex items-center gap-2"
             >
-              {loadingIA ? "Analisando imagem..." : "Analisar imagem com IA"}
+              {loadingIA ? (
+                <>
+                  <Loader2 className="animate-spin w-4 h-4" />
+                  Analisando imagem...
+                </>
+              ) : (
+                <>
+                  <Camera className="w-4 h-4" />
+                  Analisar imagem com IA
+                </>
+              )}
             </Button>
           </div>
 
-          {/* Lógica de exibição condicional */}
+          {/* Exibição condicional */}
           {isLogado ? (
             aptoIA === null || aptoIA === true ? (
               <RequestForm />
@@ -190,4 +200,3 @@ const SolicitarPlantio = () => {
 };
 
 export default SolicitarPlantio;
-
