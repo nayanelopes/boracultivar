@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,7 +13,6 @@ import QuemSomos from "./pages/QuemSomos";
 import Autenticacao from "./pages/Autenticacao";
 import MeuPerfil from "./pages/MeuPerfil";
 import HallDaFloresta from "./pages/HallDaFloresta";
-import TeachableMachine from "./pages/TeachableMachine"; // ✅ nova importação
 import { useState } from 'react';
 
 const App = () => {
@@ -33,7 +33,6 @@ const App = () => {
             <Route path="/autenticacao" element={<Autenticacao />} />
             <Route path="/meu-perfil" element={<MeuPerfil />} />
             <Route path="/hall-da-floresta" element={<HallDaFloresta />} />
-            <Route path="/verificar-local" element={<TeachableMachine />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -42,10 +41,4 @@ const App = () => {
   );
 };
 
-export default App; // 
-
-
-
-
-
-
+export default App;
