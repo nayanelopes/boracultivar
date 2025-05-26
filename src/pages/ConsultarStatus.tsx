@@ -3,14 +3,27 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import StatusCheck from '@/components/StatusCheck';
+import HistoricoSolicitacoes from '@/components/HistoricoSolicitacoes';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const ConsultarStatus = () => {
   const location = useLocation();
   const [protocolo, setProtocolo] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   useEffect(() => {
+    // Verificar se o usuário está logado
+    try {
+      const usuario = localStorage.getItem('raiz_urbana_usuario');
+      if (usuario) {
+        const dadosUsuario = JSON.parse(usuario);
+        setIsLoggedIn(dadosUsuario.isLogado || false);
+      }
+    } catch (error) {
+      console.error("Erro ao verificar login:", error);
+    }
+
     // Extrair número de protocolo da query string se existir
     const params = new URLSearchParams(location.search);
     const protocoloParam = params.get('protocolo');
@@ -31,36 +44,54 @@ const ConsultarStatus = () => {
           
           <h1 className="text-3xl md:text-4xl font-bold text-raiz-green-dark mb-4">Consultar Status da Solicitação</h1>
           
-          <p className="text-raiz-gray mb-8 max-w-3xl">
-            Digite o número do protocolo recebido por e-mail para verificar o status da sua solicitação de plantio.
-          </p>
-          
-          <div className="bg-white p-6 rounded-lg shadow-sm max-w-xl">
-            {/* Passamos o protocolo da query string para pré-preencher o campo */}
-            <StatusCheck compact={true} />
-            
-            <div className="mt-8 p-4 bg-blue-50 rounded-md border border-blue-200">
-              <h3 className="font-semibold text-blue-800 mb-2">Prazos estimados para cada etapa:</h3>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <div className="bg-gray-400 w-3 h-3 rounded-full"></div>
-                  <span><strong>Recebido:</strong> Sua solicitação foi registrada no sistema (imediato)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="bg-yellow-500 w-3 h-3 rounded-full"></div>
-                  <span><strong>Análise Técnica:</strong> Avaliação da viabilidade (até 15 dias)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="bg-blue-500 w-3 h-3 rounded-full"></div>
-                  <span><strong>Agendado:</strong> Plantio programado (15-30 dias após aprovação)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="bg-green-600 w-3 h-3 rounded-full"></div>
-                  <span><strong>Concluído:</strong> Árvore plantada (processo finalizado)</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          {!isLoggedIn ? (
+            <>
+              <p className="text-raiz-gray mb-8 max-w-3xl">
+                Digite o número do protocolo recebido por e-mail para verificar o status da sua solicitação de plantio.
+              </p>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm max-w-xl">
+                <StatusCheck compact={true} />
+                
+                <div className="mt-8 p-4 bg-blue-50 rounded-md border border-blue-200">
+                  <h3 className="font-semibold text-blue-800 mb-2">Prazos estimados para cada etapa:</h3>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center gap-2">
+                      <div className="bg-gray-400 w-3 h-3 rounded-full"></div>
+                      <span><strong>Recebido:</strong> Sua solicitação foi registrada no sistema (imediato)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="bg-yellow-500 w-3 h-3 rounded-full"></div>
+                      <span><strong>Análise Técnica:</strong> Avaliação da viabilidade (até 15 dias)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="bg-blue-500 w-3 h-3 rounded-full"></div>
+                      <span><strong>Agendado:</strong> Plantio programado (15-30 dias após aprovação)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="bg-green-600 w-3 h-3 rounded-full"></div>
+                      <span><strong>Concluído:</strong> Árvore plantada (processo finalizado)</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-raiz-gray mb-8 max-w-3xl">
+                Aqui estão todas as suas solicitações de plantio e seus respectivos status.
+              </p>
+              
+              <div className="space-y-8">
+                <HistoricoSolicitacoes />
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm max-w-xl">
+                  <h3 className="text-lg font-semibold text-raiz-green-dark mb-4">Consultar protocolo específico</h3>
+                  <StatusCheck compact={true} />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <Footer />
