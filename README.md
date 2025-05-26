@@ -4,11 +4,12 @@
 
 ## 🚀 Tecnologias Utilizadas
 
-- [React](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/) — bundler moderno e rápido
-- [Tailwind CSS](https://tailwindcss.com/) — utilitário de CSS para estilização rápida
-- [shadcn/ui](https://ui.shadcn.com/) — biblioteca de componentes acessíveis e personalizáveis
-- [bun](https://bun.sh/) — gerenciador de pacotes e runtime JavaScript moderno
+O Bora Cultivar foi desenvolvido com as seguintes tecnologias:
+- React
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- bun
 
   ## 🖥️ Pré-visualização
 
