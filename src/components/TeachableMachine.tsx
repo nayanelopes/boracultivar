@@ -1,4 +1,3 @@
-// src/components/TeachableMachine.tsx
 import React, { useRef, useState } from 'react';
 import * as tmImage from '@teachablemachine/image';
 
@@ -12,9 +11,12 @@ const TeachableMachine: React.FC = () => {
     const webcam = new tmImage.Webcam(200, 200, true);
     await webcam.setup();
     await webcam.play();
+
+
     if (webcamRef.current) {
-      webcamRef.current.srcObject = webcam.webcam;
+      webcamRef.current.srcObject = webcam.webcam.srcObject;
     }
+
     const loop = async () => {
       webcam.update();
       const prediction = await model.predict(webcam.canvas);
@@ -33,6 +35,7 @@ const TeachableMachine: React.FC = () => {
       setMessage(mensagens[topPrediction.className] || 'Resultado não identificado. Tente novamente.');
       requestAnimationFrame(loop);
     };
+
     loop();
   };
 
@@ -46,3 +49,4 @@ const TeachableMachine: React.FC = () => {
 };
 
 export default TeachableMachine;
+
