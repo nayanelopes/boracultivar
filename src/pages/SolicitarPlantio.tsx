@@ -123,7 +123,7 @@ export default function SolicitarPlantio() {
               </Button>
             </div>
             
-            <RequestForm />
+<RequestForm temImagem={!!preview} />
           </div>
         </div>
         <Footer />
