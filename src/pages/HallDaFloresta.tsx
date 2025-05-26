@@ -9,21 +9,53 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { userLevels, getUserLevel } from '@/components/UserLevelSystem';
 
-// Mock data do ranking
+// Mock data do ranking com bairros do Recife
 const rankingData = [
-  { id: 1, nome: "Maria Silva", treesPlanted: 245, cidade: "São Paulo" },
-  { id: 2, nome: "João Santos", treesPlanted: 198, cidade: "Rio de Janeiro" },
-  { id: 3, nome: "Ana Costa", treesPlanted: 156, cidade: "Belo Horizonte" },
-  { id: 4, nome: "Pedro Lima", treesPlanted: 134, cidade: "Porto Alegre" },
-  { id: 5, nome: "Carla Oliveira", treesPlanted: 112, cidade: "Salvador" },
-  { id: 6, nome: "Rafael Souza", treesPlanted: 98, cidade: "Brasília" },
-  { id: 7, nome: "Lucia Ferreira", treesPlanted: 87, cidade: "Fortaleza" },
-  { id: 8, nome: "Carlos Mendes", treesPlanted: 76, cidade: "Curitiba" },
-  { id: 9, nome: "Beatriz Rocha", treesPlanted: 65, cidade: "Recife" },
-  { id: 10, nome: "Fernando Alves", treesPlanted: 54, cidade: "Manaus" }
+  { id: 1, nome: "Maria Silva", treesPlanted: 245, bairro: "Casa Amarela" },
+  { id: 2, nome: "João Santos", treesPlanted: 198, bairro: "Ibura" },
+  { id: 3, nome: "Ana Costa", treesPlanted: 156, bairro: "Arruda" },
+  { id: 4, nome: "Pedro Lima", treesPlanted: 134, bairro: "Várzea" },
+  { id: 5, nome: "Carla Oliveira", treesPlanted: 112, bairro: "Espinheiro" },
+  { id: 6, nome: "Rafael Souza", treesPlanted: 98, bairro: "Sancho" },
+  { id: 7, nome: "Lucia Ferreira", treesPlanted: 87, bairro: "Porto da Madeira" },
+  { id: 8, nome: "Carlos Mendes", treesPlanted: 76, bairro: "Alto do Pascoal" },
+  { id: 9, nome: "Beatriz Rocha", treesPlanted: 65, bairro: "Jardim São Paulo" },
+  { id: 10, nome: "Fernando Alves", treesPlanted: 54, bairro: "Coque" }
 ];
 
 const HallDaFloresta = () => {
+  // Verificar se o usuário está logado e obter suas informações
+  const [currentUser, setCurrentUser] = React.useState<{
+    nome: string;
+    treesPlanted: number;
+    bairro: string;
+  } | null>(null);
+  const [userPosition, setUserPosition] = React.useState<number | null>(null);
+
+  React.useEffect(() => {
+    try {
+      const usuario = localStorage.getItem('raiz_urbana_usuario');
+      if (usuario) {
+        const dadosUsuario = JSON.parse(usuario);
+        if (dadosUsuario.isLogado) {
+          // Simular dados do usuário logado
+          const userData = {
+            nome: dadosUsuario.nome || "Usuário Logado",
+            treesPlanted: 89, // Simulando árvores plantadas
+            bairro: "Boa Viagem"
+          };
+          setCurrentUser(userData);
+          
+          // Calcular posição no ranking
+          const position = rankingData.filter(user => user.treesPlanted > userData.treesPlanted).length + 1;
+          setUserPosition(position);
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao verificar usuário:", error);
+    }
+  }, []);
+
   const getRankIcon = (position: number) => {
     if (position === 1) return <Crown className="h-6 w-6 text-yellow-500" />;
     if (position === 2) return <Medal className="h-6 w-6 text-gray-400" />;
@@ -46,12 +78,53 @@ const HallDaFloresta = () => {
               🌳 Hall da Floresta 🌳
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Conheça os maiores Embaixadores da Natureza do Brasil! 
-              Estes heróis verdes estão transformando nossas cidades, uma árvore por vez.
+              Conheça os maiores Embaixadores da Natureza do Recife! 
+              Estes heróis verdes estão transformando nossa cidade, uma árvore por vez.
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
+            {/* Posição do Usuário Logado */}
+            {currentUser && userPosition && (
+              <Card className="mb-8 border-2 border-raiz-green bg-gradient-to-r from-green-50 to-blue-50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-raiz-green-dark">
+                    🎯 Sua Posição no Ranking
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center gap-4 p-4 bg-white rounded-lg">
+                    <div className="flex items-center justify-center w-12">
+                      {getRankIcon(userPosition)}
+                    </div>
+                    
+                    <Avatar className="h-12 w-12">
+                      <AvatarFallback className="bg-green-100 text-green-700">
+                        {currentUser.nome.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-semibold">{currentUser.nome}</h3>
+                        <Badge variant="secondary" className="text-xs">
+                          {getUserLevel(currentUser.treesPlanted).emoji} {getUserLevel(currentUser.treesPlanted).name}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-gray-600">{currentUser.bairro}</p>
+                    </div>
+                    
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-green-600">
+                        {currentUser.treesPlanted}
+                      </div>
+                      <div className="text-xs text-gray-500">árvores</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             {/* Níveis de Plantio */}
             <Card className="mb-8">
               <CardHeader>
@@ -121,7 +194,7 @@ const HallDaFloresta = () => {
                               {userLevel.emoji} {userLevel.name}
                             </Badge>
                           </div>
-                          <p className="text-sm text-gray-600">{user.cidade}</p>
+                          <p className="text-sm text-gray-600">{user.bairro}, Recife</p>
                         </div>
                         
                         <div className="text-right">

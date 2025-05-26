@@ -19,28 +19,28 @@ const HistoricoSolicitacoes = () => {
       endereco: 'Rua das Flores, 123 - Boa Viagem',
       data: '15/04/2025',
       status: 'Análise Técnica',
-      descricao: 'Sua solicitação está sendo avaliada pela equipe técnica.'
+      descricao: 'Nossa equipe técnica está avaliando a viabilidade do local solicitado. Verificamos aspectos como tipo de solo, proximidade com fiação elétrica, espaço disponível e características do terreno para garantir o melhor desenvolvimento da árvore.'
     },
     {
       protocolo: '234567',
       endereco: 'Av. Conselheiro Aguiar, 456 - Boa Viagem',
       data: '10/04/2025',
       status: 'Agendado',
-      descricao: 'O plantio foi agendado. Nossa equipe visitará o local em breve.'
+      descricao: 'Parabéns! Sua solicitação foi aprovada e o plantio foi agendado. Nossa equipe especializada visitará o local nos próximos dias úteis para realizar o plantio da árvore. Você receberá uma notificação com o horário exato da visita.'
     },
     {
       protocolo: '345678',
       endereco: 'Rua do Sol, 789 - Recife Antigo',
       data: '05/04/2025',
       status: 'Concluído',
-      descricao: 'O plantio foi realizado com sucesso!'
+      descricao: 'Sucesso! O plantio foi realizado com êxito. Uma linda árvore nativa foi plantada no local solicitado. Agora é importante cuidar dela: regue regularmente (principalmente nos primeiros meses), proteja de danos e observe seu crescimento. Você acabou de contribuir para um Recife mais verde!'
     },
     {
       protocolo: '456789',
       endereco: 'Rua da Hora, 321 - Espinheiro',
       data: '28/03/2025',
       status: 'Rejeitado',
-      descricao: 'Local não adequado para plantio devido à proximidade com fiação elétrica.'
+      descricao: 'Infelizmente, após análise técnica, identificamos que o local não é adequado para plantio devido à proximidade com fiação elétrica de alta tensão e espaço insuficiente para desenvolvimento seguro da árvore. Sugerimos que você indique outro local em sua região.'
     }
   ];
 
@@ -73,7 +73,7 @@ const HistoricoSolicitacoes = () => {
               <TableHead>Endereço</TableHead>
               <TableHead>Data</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Descrição</TableHead>
+              <TableHead>Descrição Detalhada</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -87,7 +87,9 @@ const HistoricoSolicitacoes = () => {
                     {solicitacao.status}
                   </Badge>
                 </TableCell>
-                <TableCell className="max-w-xs truncate">{solicitacao.descricao}</TableCell>
+                <TableCell className="max-w-md">
+                  <p className="text-sm leading-relaxed">{solicitacao.descricao}</p>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
