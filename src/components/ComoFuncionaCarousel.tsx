@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -33,7 +32,7 @@ const ComoFuncionaCarousel = () => {
     },
     {
       number: 3,
-      title: "Celebrate",
+      title: "Dia do plantio: vamos juntos!",
       description: "Após o plantio, cuide da sua árvore e compartilhe fotos com a gente. Sua cidade agradece!"
     }
   ];
@@ -41,7 +40,7 @@ const ComoFuncionaCarousel = () => {
   return (
     <section className="section bg-white">
       <div className="container px-4">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-800 mb-8 sm:mb-12">Como Funciona</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-800 mb-8 sm:mb-12">Como funciona?</h2>
         
         <div className="max-w-4xl mx-auto">
           <Carousel className="w-full">

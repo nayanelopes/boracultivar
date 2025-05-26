@@ -6,10 +6,12 @@ import InfoSection from '@/components/InfoSection';
 import Footer from '@/components/Footer';
 import WhoWeAre from '@/components/WhoWeAre';
 import ComoFuncionaCarousel from '@/components/ComoFuncionaCarousel';
+import BeneficiosArvores from '@/components/BeneficiosArvores';
+import OndeNaoPlantarArvores from '@/components/OndeNaoPlantarArvores';
 import ChatbaseWidget from '@/components/ChatbaseWidget';
 import FeedPrincipal from '@/components/FeedPrincipal';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Trophy, Star, BadgePercent, Check, Leaf } from 'lucide-react';
+import { ArrowRight, Trophy, Star, BadgePercent, Leaf } from 'lucide-react';
 
 const Index = () => {
   const [usuario, setUsuario] = useState(null);
@@ -92,75 +94,11 @@ const Index = () => {
             {/* Como funciona - sempre visível */}
             <ComoFuncionaCarousel />
 
-            {/* Benefícios Section */}
-            <section className="section bg-green-100">
-              <div className="container px-4">
-                <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-800 mb-8">Benefícios das Árvores</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
-                    <div className="bg-green-100 p-4 rounded-full mb-4">
-                      <Check className="h-12 w-12 text-green-600" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-green-800 mb-2">Redução da Temperatura</h3>
-                    <p className="text-gray-600">Árvores podem reduzir a temperatura local em até 8°C, criando um microclima mais agradável.</p>
-                  </div>
-                  
-                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
-                    <div className="bg-green-100 p-4 rounded-full mb-4">
-                      <Check className="h-12 w-12 text-green-600" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-green-800 mb-2">Ar mais Limpo</h3>
-                    <p className="text-gray-600">Uma única árvore adulta pode absorver até 22kg de CO₂ por ano e filtrar poluentes do ar.</p>
-                  </div>
-                  
-                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center sm:col-span-2 lg:col-span-1 sm:max-w-md sm:mx-auto lg:max-w-none">
-                    <div className="bg-green-100 p-4 rounded-full mb-4">
-                      <Check className="h-12 w-12 text-green-600" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-green-800 mb-2">Bem-estar</h3>
-                    <p className="text-gray-600">Áreas verdes reduzem o estresse, melhoram a saúde mental e incentivam atividades ao ar livre.</p>
-                  </div>
-                </div>
-              </div>
-            </section>
+            {/* Benefícios Section - Novo componente com animações */}
+            <BeneficiosArvores />
             
-            {/* Where NOT to plant - New warning section */}
-            <section className="section bg-amber-100">
-              <div className="container px-4">
-                <h2 className="text-2xl sm:text-3xl font-bold text-center text-amber-800 mb-8">⚠️ Atenção: Onde NÃO plantar árvores</h2>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="bg-white p-6 rounded-lg shadow">
-                    <h3 className="text-xl font-semibold text-amber-700 mb-4">Locais Inadequados:</h3>
-                    <ul className="space-y-3">
-                      <li className="flex items-start gap-2">
-                        <span className="bg-amber-200 rounded-full p-1 mt-1">⚠️</span>
-                        <span>Sob fiação elétrica ou próximo a postes</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="bg-amber-200 rounded-full p-1 mt-1">⚠️</span>
-                        <span>Próximo a esquinas (mínimo de 5m de distância)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="bg-amber-200 rounded-full p-1 mt-1">⚠️</span>
-                        <span>Calçadas muito estreitas (menos de 1,5m)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="bg-amber-200 rounded-full p-1 mt-1">⚠️</span>
-                        <span>Sobre tubulações de água, gás ou esgoto</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="rounded-lg overflow-hidden shadow">
-                    <img 
-                      src="https://s2-g1.glbimg.com/2wn6q-nGeU-1-cEgzZ81ybdWgCA=/0x0:1280x720/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2019/U/g/FfZCtKQIOkIYVUsj46xA/whatsapp-image-2019-01-28-at-10.51.22.jpeg" 
-                      alt="Calçada arborizada em Recife" 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-            </section>
+            {/* Where NOT to plant - Novo componente melhorado */}
+            <OndeNaoPlantarArvores />
             
             {/* Who We Are section */}
             <WhoWeAre />
