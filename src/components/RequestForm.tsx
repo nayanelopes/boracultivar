@@ -1,19 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import { MapPin, Mail, Camera, Check } from 'lucide-react';
+import { MapPin, Mail, Camera, Check, Info } from 'lucide-react';
 import { formatPhone, formatCEP, generateProtocol } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import SuccessMessage from '@/components/SuccessMessage';
 import { supabase } from '@/integrations/supabase/client';
+import { motion } from 'framer-motion';
 
 const RequestForm = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -37,13 +38,6 @@ const RequestForm = () => {
   const [protocolo, setProtocolo] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    if (urlParams.get('newUser') === 'true') {
-      setShowSuccessMessage(true);
-    }
-  }, [location]);
 
   useEffect(() => {
     const {
@@ -95,18 +89,12 @@ const RequestForm = () => {
 
     const leitor = new FileReader();
     leitor.onload = () => {
-      setImagemLocal(leitor.result);
+      setImagemLocal(leitor.result as string);
     };
     leitor.readAsDataURL(arquivo);
   };
 
-  const handleCapturarImagem = () => fileInputRef.current?.click();
-  const handleRemoverImagem = () => {
-    setImagemLocal(null);
-    if (fileInputRef.current) fileInputRef.current.value = '';
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formValido || submitting) return;
 
@@ -150,70 +138,249 @@ const RequestForm = () => {
   return (
     <>
       <SuccessMessage show={showSuccessMessage} onClose={() => setShowSuccessMessage(false)} />
-
-      <form onSubmit={handleSubmit} className="space-y-4 p-4">
-        <Input name="nome" placeholder="Nome completo" value={form.nome} onChange={handleChange} required />
-        <Input name="email" placeholder="Email" value={form.email} onChange={handleChange} type="email" required />
-        <Input name="telefone" placeholder="Telefone" value={form.telefone} onChange={handleChange} required />
-        <Input name="cep" placeholder="CEP" value={form.cep} onChange={handleChange} required />
-        <Input name="endereco" placeholder="Endereço" value={form.endereco} onChange={handleChange} required />
-        <Input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} required />
-        <Input name="bairro" placeholder="Bairro" value={form.bairro} onChange={handleChange} required />
-        <Input name="referencia" placeholder="Ponto de referência (opcional)" value={form.referencia} onChange={handleChange} />
-
-        <Textarea
-          name="observacoes"
-          placeholder="Alguma observação?"
-          value={form.observacoes}
-          onChange={handleChange}
-        />
-
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id="concordaTermos"
-            name="concordaTermos"
-            checked={form.concordaTermos}
-            onCheckedChange={(checked) => setForm(prev => ({ ...prev, concordaTermos: checked }))}
-          />
-          <label htmlFor="concordaTermos" className="text-sm">Li e concordo com os termos</label>
-        </div>
-
-        <div className="space-y-2">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImagemCaptura}
-            hidden
-          />
-          {!imagemLocal ? (
-            <Button type="button" onClick={handleCapturarImagem} variant="outline" className="w-full">
-              <Camera className="mr-2 h-4 w-4" />
-              Enviar imagem do local
-            </Button>
-          ) : (
-            <div className="space-y-2">
-              <img src={imagemLocal} alt="Imagem do local" className="w-full rounded-md" />
-              <Button type="button" onClick={handleRemoverImagem} variant="destructive" className="w-full">
-                Remover imagem
-              </Button>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8"
+      >
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Dados Pessoais */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-green-800 flex items-center gap-2">
+              <User className="h-5 w-5" />
+              Dados Pessoais
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="nome">Nome completo</Label>
+                <Input
+                  id="nome"
+                  name="nome"
+                  value={form.nome}
+                  onChange={handleChange}
+                  className="mt-1"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="mt-1"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="telefone">Telefone</Label>
+                <Input
+                  id="telefone"
+                  name="telefone"
+                  value={form.telefone}
+                  onChange={handleChange}
+                  className="mt-1"
+                  required
+                />
+              </div>
             </div>
-          )}
-        </div>
+          </div>
 
-        <Button type="submit" disabled={!formValido || submitting} className="w-full">
-          {submitting ? "Enviando..." : "Enviar solicitação"}
-        </Button>
-      </form>
+          {/* Endereço */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-green-800 flex items-center gap-2">
+              <MapPin className="h-5 w-5" />
+              Endereço do Plantio
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
+                <Label htmlFor="endereco">Rua/Avenida</Label>
+                <Input
+                  id="endereco"
+                  name="endereco"
+                  value={form.endereco}
+                  onChange={handleChange}
+                  className="mt-1"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="numero">Número</Label>
+                <Input
+                  id="numero"
+                  name="numero"
+                  value={form.numero}
+                  onChange={handleChange}
+                  className="mt-1"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="cep">CEP</Label>
+                <Input
+                  id="cep"
+                  name="cep"
+                  value={form.cep}
+                  onChange={handleChange}
+                  className="mt-1"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="bairro">Bairro</Label>
+                <Input
+                  id="bairro"
+                  name="bairro"
+                  value={form.bairro}
+                  onChange={handleChange}
+                  className="mt-1"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="referencia">Ponto de referência (opcional)</Label>
+                <Input
+                  id="referencia"
+                  name="referencia"
+                  value={form.referencia}
+                  onChange={handleChange}
+                  className="mt-1"
+                />
+              </div>
+            </div>
+          </div>
 
+          {/* Observações */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-green-800 flex items-center gap-2">
+              <Info className="h-5 w-5" />
+              Informações Adicionais
+            </h2>
+            <div>
+              <Label htmlFor="observacoes">Observações (opcional)</Label>
+              <Textarea
+                id="observacoes"
+                name="observacoes"
+                value={form.observacoes}
+                onChange={handleChange}
+                className="mt-1"
+                placeholder="Adicione informações relevantes sobre o local do plantio..."
+              />
+            </div>
+          </div>
+
+          {/* Imagem do Local */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-green-800 flex items-center gap-2">
+              <Camera className="h-5 w-5" />
+              Imagem do Local
+            </h2>
+            <div className="space-y-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImagemCaptura}
+                hidden
+              />
+              {!imagemLocal ? (
+                <Button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  variant="outline"
+                  className="w-full h-32 border-dashed"
+                >
+                  <div className="flex flex-col items-center gap-2">
+                    <Camera className="h-8 w-8 text-gray-400" />
+                    <span>Clique para adicionar uma foto do local</span>
+                  </div>
+                </Button>
+              ) : (
+                <div className="relative">
+                  <img
+                    src={imagemLocal}
+                    alt="Local do plantio"
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={() => setImagemLocal(null)}
+                  >
+                    Remover
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Termos */}
+          <div className="space-y-4 border-t pt-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="concordaTermos"
+                name="concordaTermos"
+                checked={form.concordaTermos}
+                onCheckedChange={(checked) => setForm(prev => ({ ...prev, concordaTermos: checked === true }))}
+              />
+              <Label
+                htmlFor="concordaTermos"
+                className="text-sm text-gray-600 leading-relaxed"
+              >
+                Li e concordo com os termos de uso e me comprometo a cuidar da árvore após o plantio,
+                mantendo a calçada limpa e regando regularmente.
+              </Label>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            className="w-full bg-green-600 hover:bg-green-700 text-white"
+            disabled={!formValido || submitting}
+          >
+            {submitting ? (
+              <div className="flex items-center gap-2">
+                <span className="animate-spin">⏳</span>
+                Enviando...
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Check className="h-5 w-5" />
+                Enviar Solicitação
+              </div>
+            )}
+          </Button>
+        </form>
+      </motion.div>
+
+      {/* Success Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Solicitação registrada com sucesso!</DialogTitle>
+            <DialogTitle>Solicitação registrada com sucesso! 🌱</DialogTitle>
           </DialogHeader>
-          <p>O seu protocolo é: <strong>{protocolo}</strong></p>
+          <div className="space-y-4">
+            <p>
+              Seu protocolo é: <span className="font-mono font-bold text-green-600">{protocolo}</span>
+            </p>
+            <p className="text-sm text-gray-600">
+              Guarde este número para acompanhar o status da sua solicitação.
+            </p>
+          </div>
           <DialogFooter>
-            <Button onClick={handleConfirmar}>Consultar status</Button>
+            <Button
+              onClick={handleConfirmar}
+              className="w-full bg-green-600 hover:bg-green-700 text-white"
+            >
+              Acompanhar Status
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
