@@ -108,8 +108,7 @@ const RequestForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formValido) return;
-    if (submitting) return;
+    if (!formValido || submitting) return;
 
     setSubmitting(true);
     const novoProtocolo = generateProtocol();
@@ -152,7 +151,60 @@ const RequestForm = () => {
     <>
       <SuccessMessage show={showSuccessMessage} onClose={() => setShowSuccessMessage(false)} />
 
-      {/* ... JSX do formulário, igual ao original, não repetido aqui por brevidade ... */}
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
+        <Input name="nome" placeholder="Nome completo" value={form.nome} onChange={handleChange} required />
+        <Input name="email" placeholder="Email" value={form.email} onChange={handleChange} type="email" required />
+        <Input name="telefone" placeholder="Telefone" value={form.telefone} onChange={handleChange} required />
+        <Input name="cep" placeholder="CEP" value={form.cep} onChange={handleChange} required />
+        <Input name="endereco" placeholder="Endereço" value={form.endereco} onChange={handleChange} required />
+        <Input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} required />
+        <Input name="bairro" placeholder="Bairro" value={form.bairro} onChange={handleChange} required />
+        <Input name="referencia" placeholder="Ponto de referência (opcional)" value={form.referencia} onChange={handleChange} />
+
+        <Textarea
+          name="observacoes"
+          placeholder="Alguma observação?"
+          value={form.observacoes}
+          onChange={handleChange}
+        />
+
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="concordaTermos"
+            name="concordaTermos"
+            checked={form.concordaTermos}
+            onCheckedChange={(checked) => setForm(prev => ({ ...prev, concordaTermos: checked }))}
+          />
+          <label htmlFor="concordaTermos" className="text-sm">Li e concordo com os termos</label>
+        </div>
+
+        <div className="space-y-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImagemCaptura}
+            hidden
+          />
+          {!imagemLocal ? (
+            <Button type="button" onClick={handleCapturarImagem} variant="outline" className="w-full">
+              <Camera className="mr-2 h-4 w-4" />
+              Enviar imagem do local
+            </Button>
+          ) : (
+            <div className="space-y-2">
+              <img src={imagemLocal} alt="Imagem do local" className="w-full rounded-md" />
+              <Button type="button" onClick={handleRemoverImagem} variant="destructive" className="w-full">
+                Remover imagem
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <Button type="submit" disabled={!formValido || submitting} className="w-full">
+          {submitting ? "Enviando..." : "Enviar solicitação"}
+        </Button>
+      </form>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
