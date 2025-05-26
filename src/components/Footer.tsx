@@ -11,7 +11,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Trees className="h-5 w-5 sm:h-6 sm:w-6" />
-              <span className="font-bold text-lg sm:text-xl">Raiz Urbana</span>
+              <span className="font-bold text-lg sm:text-xl">Bora Cultivar</span>
             </div>
             <p className="text-white/80 mb-4 text-sm sm:text-base">
               Transformando nossas cidades através da arborização urbana. Um projeto de cidadania e cuidado com o meio ambiente.
@@ -60,7 +60,7 @@ const Footer = () => {
             <ul className="space-y-3 text-sm sm:text-base">
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-raiz-earth flex-shrink-0" />
-                <span className="break-all">raizurbana@gmail.com.br</span>
+                <span className="break-all">boracultivar@gmail.com.br</span>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-raiz-earth flex-shrink-0" />
@@ -75,7 +75,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-white/20 pt-6 text-center text-xs sm:text-sm text-white/60">
-          <p>&copy; {new Date().getFullYear()} Raiz Urbana Brasil. Todos os direitos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Bora Cultivar Brasil. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

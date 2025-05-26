@@ -11,7 +11,11 @@ const WhoWeAre = () => {
         <div className="flex flex-col md:flex-row gap-8 items-center">
           <div className="md:w-1/3 flex justify-center">
             <div className="bg-raiz-green-dark/10 p-6 rounded-full">
-              <TreeDeciduous size={120} className="text-raiz-green-dark" />
+              <img 
+                src="/lovable-uploads/9c9a217d-8d6a-41a6-89d6-14669b99c654.png" 
+                alt="Mascote Bora Cultivar" 
+                className="w-32 h-32 object-contain"
+              />
             </div>
           </div>
           <div className="md:w-2/3">

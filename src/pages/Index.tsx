@@ -110,12 +110,13 @@ const Index = () => {
             <section className="section bg-green-50">
               <div className="container px-4">
                 <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-800 mb-4 sm:mb-6">Sistema Capiba Verde</h2>
-                <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
-                  Participe do nosso programa de recompensas e ganhe moedas Capiba toda vez que contribuir para deixar Recife mais verde!
+                <p className="text-center text-gray-600 max-w-3xl mx-auto mb-10 text-lg">
+                  Ganhe recompensas por cuidar do Recife!<br />
+                  Toda vez que você planta uma árvore, participa de ações verdes ou cuida do meio ambiente, você acumula moedas Capiba. Troque por descontos, prêmios e benefícios. Bora cultivar juntos?
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-8 sm:mb-10">
-                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-2">
                     <Star className="h-12 w-12 text-amber-500 mb-4" fill="currentColor" />
                     <h3 className="text-xl font-semibold text-green-800 mb-2">Moedas Capiba</h3>
                     <p className="text-gray-600 mb-4">
@@ -126,7 +127,7 @@ const Index = () => {
                     </p>
                   </div>
                   
-                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-2">
                     <Trophy className="h-12 w-12 text-amber-500 mb-4" />
                     <h3 className="text-xl font-semibold text-green-800 mb-2">Desafios Ambientais</h3>
                     <p className="text-gray-600 mb-4">
@@ -137,7 +138,7 @@ const Index = () => {
                     </p>
                   </div>
                   
-                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center sm:col-span-2 md:col-span-1 sm:max-w-md sm:mx-auto md:max-w-none">
+                  <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center sm:col-span-2 md:col-span-1 sm:max-w-md sm:mx-auto md:max-w-none transition-all duration-300 hover:shadow-lg hover:-translate-y-2">
                     <BadgePercent className="h-12 w-12 text-amber-500 mb-4" />
                     <h3 className="text-xl font-semibold text-green-800 mb-2">Cupons de Desconto</h3>
                     <p className="text-gray-600 mb-4">
