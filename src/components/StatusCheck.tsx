@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 type StatusProps = {
   compact?: boolean;
@@ -14,6 +16,8 @@ const StatusCheck: React.FC<StatusProps> = ({ compact = false }) => {
     descricao: string;
     cor: string;
   }>(null);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
   
   // Carregar protocolo salvo ao inicializar o componente
   useEffect(() => {
@@ -27,40 +31,77 @@ const StatusCheck: React.FC<StatusProps> = ({ compact = false }) => {
     }
   }, []);
   
-  // Dados simulados para demonstração
-  const mockStatuses: Record<string, {
-    etapa: string;
-    data: string;
-    descricao: string;
-    cor: string;
-  }> = {
-    '123456': {
-      etapa: 'Análise Técnica',
-      data: '15/04/2025',
-      descricao: 'Sua solicitação está sendo avaliada pela equipe técnica.',
-      cor: 'bg-yellow-500',
-    },
-    '234567': {
-      etapa: 'Agendado',
-      data: '22/04/2025',
-      descricao: 'O plantio foi agendado. Nossa equipe visitará o local em breve.',
-      cor: 'bg-blue-500',
-    },
-    '345678': {
-      etapa: 'Concluído',
-      data: '10/04/2025',
-      descricao: 'O plantio foi realizado com sucesso! Agora é só cuidar da árvore.',
-      cor: 'bg-green-600',
-    },
+  const getStatusDetails = (status: string, data_atualizacao: string) => {
+    const statusMap: Record<string, { cor: string; descricao: string }> = {
+      'Recebido': {
+        cor: 'bg-gray-500',
+        descricao: 'Sua solicitação foi registrada no sistema e será analisada em breve.',
+      },
+      'Análise Técnica': {
+        cor: 'bg-yellow-500',
+        descricao: 'Sua solicitação está sendo avaliada pela equipe técnica.',
+      },
+      'Agendado': {
+        cor: 'bg-blue-500',
+        descricao: 'O plantio foi agendado. Nossa equipe visitará o local em breve.',
+      },
+      'Concluído': {
+        cor: 'bg-green-600',
+        descricao: 'O plantio foi realizado com sucesso! Agora é só cuidar da árvore.',
+      },
+      'Rejeitado': {
+        cor: 'bg-red-500',
+        descricao: 'Infelizmente, o local não é adequado para plantio.',
+      },
+    };
+
+    const statusInfo = statusMap[status] || statusMap['Recebido'];
+    
+    return {
+      etapa: status,
+      data: new Date(data_atualizacao).toLocaleDateString('pt-BR'),
+      cor: statusInfo.cor,
+      descricao: statusInfo.descricao,
+    };
   };
   
-  const handleCheck = (e: React.FormEvent) => {
+  const handleCheck = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simular busca em uma API
-    setTimeout(() => {
-      const result = mockStatuses[protocolo];
-      setStatus(result || null);
-    }, 500);
+    if (!protocolo.trim()) return;
+    
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('protocolos')
+        .select('*')
+        .eq('numero_protocolo', protocolo.trim())
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Erro ao buscar protocolo:', error);
+        toast({
+          title: "Erro",
+          description: "Erro ao consultar protocolo. Tente novamente.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (data) {
+        setStatus(getStatusDetails(data.status, data.data_atualizacao));
+      } else {
+        setStatus(null);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar protocolo:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao consultar protocolo. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   
   // Se temos um protocolo automaticamente ao carregar, verificar o status
@@ -68,8 +109,7 @@ const StatusCheck: React.FC<StatusProps> = ({ compact = false }) => {
     if (protocolo) {
       // Verificar status após um pequeno delay para dar tempo da UI renderizar
       setTimeout(() => {
-        const result = mockStatuses[protocolo];
-        setStatus(result || null);
+        handleCheck({ preventDefault: () => {} } as React.FormEvent);
       }, 100);
     }
   }, [protocolo]);
@@ -100,16 +140,23 @@ const StatusCheck: React.FC<StatusProps> = ({ compact = false }) => {
                 />
                 <button 
                   type="submit"
-                  className="bg-raiz-green-dark hover:bg-raiz-green-light p-2 rounded-r-md text-white flex items-center"
+                  disabled={loading}
+                  className="bg-raiz-green-dark hover:bg-raiz-green-light p-2 rounded-r-md text-white flex items-center disabled:opacity-50"
                 >
                   <Search className="h-6 w-6" />
                 </button>
               </div>
             </div>
             
-            {status === null && protocolo && (
+            {status === null && protocolo && !loading && (
               <div className="bg-red-50 text-red-700 p-3 rounded">
                 Protocolo não encontrado. Verifique o número e tente novamente.
+              </div>
+            )}
+            
+            {loading && (
+              <div className="bg-blue-50 text-blue-700 p-3 rounded">
+                Consultando protocolo...
               </div>
             )}
             

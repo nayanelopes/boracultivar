@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -9,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import SuccessMessage from '@/components/SuccessMessage';
+import { supabase } from '@/integrations/supabase/client';
 
 const RequestForm = () => {
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ const RequestForm = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [protocolo, setProtocolo] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   
   // Verificar se o usuário acabou de se cadastrar
   useEffect(() => {
@@ -139,7 +142,7 @@ const RequestForm = () => {
     }
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!imagemLocal) {
@@ -151,16 +154,69 @@ const RequestForm = () => {
       return;
     }
     
+    if (submitting) return;
+    
+    setSubmitting(true);
     const novoProtocolo = generateProtocol();
-    setProtocolo(novoProtocolo);
     
     try {
-      localStorage.setItem('plantio_protocolo', novoProtocolo);
+      // Verificar se o usuário está logado
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      // Montar endereço completo
+      const enderecoCompleto = `${form.endereco}, ${form.numero} - ${form.bairro}${form.referencia ? ` (${form.referencia})` : ''}`;
+      
+      // Dados do protocolo
+      const protocoloData = {
+        numero_protocolo: novoProtocolo,
+        nome_usuario: form.nome,
+        email: form.email,
+        endereco: enderecoCompleto,
+        status: 'Recebido' as const,
+        observacoes: form.observacoes || 'Solicitação de plantio recebida e registrada no sistema.',
+        user_id: session?.user?.id || null
+      };
+      
+      // Inserir no banco de dados
+      const { error } = await supabase
+        .from('protocolos')
+        .insert([protocoloData]);
+      
+      if (error) {
+        console.error('Erro ao salvar protocolo:', error);
+        toast({
+          title: "Erro ao salvar solicitação",
+          description: "Houve um problema ao registrar sua solicitação. Tente novamente.",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Salvar protocolo no localStorage para consulta futura
+      try {
+        localStorage.setItem('plantio_protocolo', novoProtocolo);
+      } catch (error) {
+        console.error("Erro ao salvar protocolo no localStorage:", error);
+      }
+      
+      setProtocolo(novoProtocolo);
+      setDialogOpen(true);
+      
+      toast({
+        title: "Solicitação enviada!",
+        description: `Protocolo ${novoProtocolo} gerado com sucesso.`,
+      });
+      
     } catch (error) {
-      console.error("Erro ao salvar protocolo:", error);
+      console.error('Erro inesperado:', error);
+      toast({
+        title: "Erro inesperado",
+        description: "Houve um problema inesperado. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setSubmitting(false);
     }
-    
-    setDialogOpen(true);
   };
   
   const handleConfirmar = () => {
@@ -404,14 +460,14 @@ const RequestForm = () => {
             <Button 
               type="submit" 
               className={`flex items-center gap-2 transition-all duration-300 ${
-                formValido 
+                formValido && !submitting
                   ? "bg-gray-800 text-white hover:bg-gray-700 scale-105" 
                   : "bg-gray-300 text-gray-600 cursor-not-allowed"
               }`}
-              disabled={!formValido}
+              disabled={!formValido || submitting}
             >
               <Mail className="h-5 w-5" />
-              Enviar Solicitação
+              {submitting ? 'Enviando...' : 'Enviar Solicitação'}
             </Button>
           </div>
           

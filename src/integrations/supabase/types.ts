@@ -9,7 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      protocolos: {
+        Row: {
+          data_atualizacao: string
+          data_criacao: string
+          email: string
+          endereco: string
+          id: string
+          nome_usuario: string
+          numero_protocolo: string
+          observacoes: string | null
+          status: Database["public"]["Enums"]["status_protocolo"]
+          user_id: string | null
+        }
+        Insert: {
+          data_atualizacao?: string
+          data_criacao?: string
+          email: string
+          endereco: string
+          id?: string
+          nome_usuario: string
+          numero_protocolo: string
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["status_protocolo"]
+          user_id?: string | null
+        }
+        Update: {
+          data_atualizacao?: string
+          data_criacao?: string
+          email?: string
+          endereco?: string
+          id?: string
+          nome_usuario?: string
+          numero_protocolo?: string
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["status_protocolo"]
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +56,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      status_protocolo:
+        | "Recebido"
+        | "Análise Técnica"
+        | "Agendado"
+        | "Concluído"
+        | "Rejeitado"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +176,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      status_protocolo: [
+        "Recebido",
+        "Análise Técnica",
+        "Agendado",
+        "Concluído",
+        "Rejeitado",
+      ],
+    },
   },
 } as const

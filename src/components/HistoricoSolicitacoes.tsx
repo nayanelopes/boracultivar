@@ -1,48 +1,86 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 type Solicitacao = {
-  protocolo: string;
+  id: string;
+  numero_protocolo: string;
   endereco: string;
-  data: string;
+  data_criacao: string;
   status: 'Recebido' | 'Análise Técnica' | 'Agendado' | 'Concluído' | 'Rejeitado';
-  descricao: string;
+  observacoes: string;
 };
 
 const HistoricoSolicitacoes = () => {
-  // Dados simulados de histórico do usuário logado
-  const solicitacoes: Solicitacao[] = [
-    {
-      protocolo: '123456',
-      endereco: 'Rua das Flores, 123 - Boa Viagem',
-      data: '15/04/2025',
-      status: 'Análise Técnica',
-      descricao: 'Nossa equipe técnica está avaliando a viabilidade do local solicitado. Verificamos aspectos como tipo de solo, proximidade com fiação elétrica, espaço disponível e características do terreno para garantir o melhor desenvolvimento da árvore.'
-    },
-    {
-      protocolo: '234567',
-      endereco: 'Av. Conselheiro Aguiar, 456 - Boa Viagem',
-      data: '10/04/2025',
-      status: 'Agendado',
-      descricao: 'Parabéns! Sua solicitação foi aprovada e o plantio foi agendado. Nossa equipe especializada visitará o local nos próximos dias úteis para realizar o plantio da árvore. Você receberá uma notificação com o horário exato da visita.'
-    },
-    {
-      protocolo: '345678',
-      endereco: 'Rua do Sol, 789 - Recife Antigo',
-      data: '05/04/2025',
-      status: 'Concluído',
-      descricao: 'Sucesso! O plantio foi realizado com êxito. Uma linda árvore nativa foi plantada no local solicitado. Agora é importante cuidar dela: regue regularmente (principalmente nos primeiros meses), proteja de danos e observe seu crescimento. Você acabou de contribuir para um Recife mais verde!'
-    },
-    {
-      protocolo: '456789',
-      endereco: 'Rua da Hora, 321 - Espinheiro',
-      data: '28/03/2025',
-      status: 'Rejeitado',
-      descricao: 'Infelizmente, após análise técnica, identificamos que o local não é adequado para plantio devido à proximidade com fiação elétrica de alta tensão e espaço insuficiente para desenvolvimento seguro da árvore. Sugerimos que você indique outro local em sua região.'
+  const [solicitacoes, setSolicitacoes] = useState<Solicitacao[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchSolicitacoes();
+    
+    // Configurar realtime para atualizações automáticas
+    const channel = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'protocolos'
+        },
+        () => {
+          fetchSolicitacoes();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const fetchSolicitacoes = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        setSolicitacoes([]);
+        setLoading(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('protocolos')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('data_criacao', { ascending: false });
+
+      if (error) {
+        console.error('Erro ao buscar solicitações:', error);
+        toast({
+          title: "Erro",
+          description: "Erro ao carregar histórico de solicitações.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      setSolicitacoes(data || []);
+    } catch (error) {
+      console.error('Erro ao buscar solicitações:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao carregar histórico de solicitações.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -61,6 +99,28 @@ const HistoricoSolicitacoes = () => {
     }
   };
 
+  const getStatusDescription = (status: string) => {
+    const descriptions: Record<string, string> = {
+      'Recebido': 'Sua solicitação foi registrada no sistema e será analisada em breve pela nossa equipe técnica.',
+      'Análise Técnica': 'Nossa equipe técnica está avaliando a viabilidade do local solicitado. Verificamos aspectos como tipo de solo, proximidade com fiação elétrica, espaço disponível e características do terreno para garantir o melhor desenvolvimento da árvore.',
+      'Agendado': 'Parabéns! Sua solicitação foi aprovada e o plantio foi agendado. Nossa equipe especializada visitará o local nos próximos dias úteis para realizar o plantio da árvore. Você receberá uma notificação com o horário exato da visita.',
+      'Concluído': 'Sucesso! O plantio foi realizado com êxito. Uma linda árvore nativa foi plantada no local solicitado. Agora é importante cuidar dela: regue regularmente (principalmente nos primeiros meses), proteja de danos e observe seu crescimento. Você acabou de contribuir para um Recife mais verde!',
+      'Rejeitado': 'Infelizmente, após análise técnica, identificamos que o local não é adequado para plantio. Sugerimos que você indique outro local em sua região.',
+    };
+    return descriptions[status] || 'Status não reconhecido.';
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-white p-6 rounded-lg shadow-sm">
+        <h2 className="text-2xl font-bold text-raiz-green-dark mb-6">Histórico de Solicitações</h2>
+        <div className="text-center py-8 text-gray-500">
+          <p>Carregando histórico...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <h2 className="text-2xl font-bold text-raiz-green-dark mb-6">Histórico de Solicitações</h2>
@@ -78,17 +138,19 @@ const HistoricoSolicitacoes = () => {
           </TableHeader>
           <TableBody>
             {solicitacoes.map((solicitacao) => (
-              <TableRow key={solicitacao.protocolo}>
-                <TableCell className="font-medium">{solicitacao.protocolo}</TableCell>
+              <TableRow key={solicitacao.id}>
+                <TableCell className="font-medium">{solicitacao.numero_protocolo}</TableCell>
                 <TableCell>{solicitacao.endereco}</TableCell>
-                <TableCell>{solicitacao.data}</TableCell>
+                <TableCell>{new Date(solicitacao.data_criacao).toLocaleDateString('pt-BR')}</TableCell>
                 <TableCell>
                   <Badge className={`${getStatusColor(solicitacao.status)} text-white`}>
                     {solicitacao.status}
                   </Badge>
                 </TableCell>
                 <TableCell className="max-w-md">
-                  <p className="text-sm leading-relaxed">{solicitacao.descricao}</p>
+                  <p className="text-sm leading-relaxed">
+                    {solicitacao.observacoes || getStatusDescription(solicitacao.status)}
+                  </p>
                 </TableCell>
               </TableRow>
             ))}
