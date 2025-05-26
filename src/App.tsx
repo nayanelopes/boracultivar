@@ -34,7 +34,6 @@ const App = () => {
             <Route path="/meu-perfil" element={<MeuPerfil />} />
             <Route path="/hall-da-floresta" element={<HallDaFloresta />} />
             <Route path="/verificar-local" element={<TeachableMachine />} />
-
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -43,6 +42,7 @@ const App = () => {
   );
 };
 
+export default App; // 
 
 
 
