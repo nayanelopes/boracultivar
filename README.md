@@ -13,3 +13,4 @@
   ## 🖥️ Pré-visualização
 
 Acesse a aplicação pelo link:  
+https://boracultivar-wf55.vercel.app/
