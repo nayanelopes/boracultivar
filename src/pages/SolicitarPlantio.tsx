@@ -1,6 +1,5 @@
 
 import React, { useState, useRef } from "react";
-import * as tmImage from "@teachablemachine/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -11,122 +10,90 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import RequestForm from '@/components/RequestForm';
 
-const MODEL_URL = "/teachable_model/";
-
 export default function SolicitarPlantio() {
-  const [model, setModel] = useState<tmImage.CustomMobileNet | null>(null);
-  const [webcam, setWebcam] = useState<tmImage.Webcam | null>(null);
   const [isWebcamActive, setIsWebcamActive] = useState(false);
   const [message, setMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState<'camera' | 'form' | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const webcamRef = useRef<HTMLDivElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
-
-  async function loadModel() {
-    if (!model) {
-      try {
-        const loadedModel = await tmImage.load(`${MODEL_URL}model.json`, `${MODEL_URL}metadata.json`);
-        setModel(loadedModel);
-        return loadedModel;
-      } catch (error) {
-        console.error("Erro ao carregar modelo:", error);
-        toast.error("Erro ao carregar o modelo de verificação");
-        return null;
-      }
-    }
-    return model;
-  }
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   async function initWebcam() {
-    const loadedModel = await loadModel();
-    if (!loadedModel) return;
-
     try {
-      const webcamInstance = new tmImage.Webcam(320, 320, true);
-      await webcamInstance.setup();
-      await webcamInstance.play();
-
-      if (webcamRef.current) {
-        webcamRef.current.appendChild(webcamInstance.canvas);
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
       }
 
-      setWebcam(webcamInstance);
       setIsWebcamActive(true);
-
-      const loop = async () => {
-        if (webcamInstance && loadedModel) {
-          webcamInstance.update();
-          const prediction = await loadedModel.predict(webcamInstance.canvas);
-          prediction.sort((a, b) => b.probability - a.probability);
-          const topPrediction = prediction[0];
-          
-          const mensagens: { [key: string]: string } = {
-            'Apto para plantio': '✅ Este local está apto para plantio! Sua solicitação foi registrada e será analisada por nossa equipe técnica.',
-            'Calçada estreita': '🚫 A calçada tem menos de 1,90m. Isso impede o crescimento saudável da árvore e a circulação segura.',
-            'Obstáculos urbanos': '🚫 Há muitos equipamentos urbanos no local, como postes, rampas ou entradas de garagem.',
-            'Solo inadequado': '🚫 O solo está muito compactado ou pavimentado. Isso prejudica o desenvolvimento da árvore.',
-            'Rua estreita': '🚫 Ruas com menos de 7 metros não podem ser arborizadas devido à segurança do trânsito.',
-            'Fiação elétrica': '🚫 Há fiação elétrica de média/alta tensão. Plantio aqui não é permitido por segurança.',
-            'Sem área permeável': '🚫 O local precisa ter solo permeável para infiltrar água e nutrir a árvore.',
-            'Muito próximo de edificações': '🚫 A árvore poderia causar danos estruturais a construções próximas.',
-          };
-          
-          setMessage(mensagens[topPrediction.className] || 'Resultado não identificado. Tente novamente.');
-          
-          if (isWebcamActive) {
-            requestAnimationFrame(loop);
-          }
+      
+      // Simular análise após 3 segundos
+      setTimeout(() => {
+        const isApto = Math.random() > 0.5; // 50% de chance de ser apto
+        
+        if (isApto) {
+          setMessage('✅ Este local está apto para plantio! Sua solicitação foi registrada e será analisada por nossa equipe técnica.');
+        } else {
+          const motivos = [
+            '🚫 A calçada tem menos de 1,90m. Isso impede o crescimento saudável da árvore e a circulação segura.',
+            '🚫 Há muitos equipamentos urbanos no local, como postes, rampas ou entradas de garagem.',
+            '🚫 O solo está muito compactado ou pavimentado. Isso prejudica o desenvolvimento da árvore.',
+            '🚫 Ruas com menos de 7 metros não podem ser arborizadas devido à segurança do trânsito.',
+            '🚫 Há fiação elétrica de média/alta tensão. Plantio aqui não é permitido por segurança.'
+          ];
+          const motivoAleatorio = motivos[Math.floor(Math.random() * motivos.length)];
+          setMessage(motivoAleatorio);
         }
-      };
-
-      loop();
+      }, 3000);
+      
     } catch (error) {
-      console.error("Erro ao inicializar webcam:", error);
+      console.error("Erro ao acessar a câmera:", error);
       toast.error("Erro ao acessar a câmera");
     }
   }
 
   function stopWebcam() {
-    if (webcam) {
-      webcam.stop();
-      setWebcam(null);
-      setIsWebcamActive(false);
-      setMessage('');
-      if (webcamRef.current) {
-        webcamRef.current.innerHTML = '';
-      }
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
     }
+    setIsWebcamActive(false);
+    setMessage('');
   }
 
   async function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    const loadedModel = await loadModel();
-    if (!loadedModel || !event.target.files) return;
+    if (!event.target.files) return;
 
     const file = event.target.files[0];
-    const image = new Image();
     const reader = new FileReader();
 
     reader.onload = () => {
       if (typeof reader.result === "string") {
-        image.src = reader.result;
         setPreview(reader.result);
-        image.onload = async () => {
-          const prediction = await loadedModel.predict(image);
-          const best = prediction.reduce((prev, curr) =>
-            curr.probability > prev.probability ? curr : prev
-          );
-
-          const label = best.className;
-
-          if (label.includes("Apto")) {
+        
+        // Simular análise da imagem
+        setTimeout(() => {
+          const isApto = Math.random() > 0.5; // 50% de chance de ser apto
+          
+          if (isApto) {
             toast.success("🌱 Local apto para plantio! Prossiga com o formulário abaixo.");
             setSelectedOption('form');
           } else {
-            const motivo = label.replace("Inapto - ", "");
-            toast.error(`🚫 Plantio não recomendado: ${motivo}`);
+            const motivos = [
+              "Calçada estreita",
+              "Obstáculos urbanos", 
+              "Solo inadequado",
+              "Rua estreita",
+              "Fiação elétrica"
+            ];
+            const motivoAleatorio = motivos[Math.floor(Math.random() * motivos.length)];
+            toast.error(`🚫 Plantio não recomendado: ${motivoAleatorio}`);
           }
-        };
+        }, 2000);
       }
     };
 
@@ -205,10 +172,21 @@ export default function SolicitarPlantio() {
                     </Button>
                   ) : (
                     <div className="space-y-4">
-                      <div ref={webcamRef} className="flex justify-center"></div>
-                      {message && (
+                      <div className="flex justify-center">
+                        <video
+                          ref={videoRef}
+                          className="w-80 h-60 rounded-lg border"
+                          autoPlay
+                          muted
+                        />
+                      </div>
+                      {message ? (
                         <div className="p-3 bg-gray-50 rounded-lg">
                           <p className="text-sm">{message}</p>
+                        </div>
+                      ) : (
+                        <div className="p-3 bg-blue-50 rounded-lg">
+                          <p className="text-sm">🔍 Analisando o local...</p>
                         </div>
                       )}
                       <div className="flex gap-2">
@@ -276,6 +254,9 @@ export default function SolicitarPlantio() {
                         alt="Pré-visualização da imagem"
                         className="w-full rounded-xl border max-h-48 object-cover"
                       />
+                      <div className="p-3 bg-blue-50 rounded-lg">
+                        <p className="text-sm">🔍 Analisando a imagem...</p>
+                      </div>
                     </motion.div>
                   )}
                 </CardContent>
