@@ -1,7 +1,9 @@
 ## 🌿 Bora Cultivar? - Plataforma Digital de Arborização Urbana
 
 [![Deploy Vercel] (https://vercel.com/button)](https://boracultivar-wf55.vercel.app/)
+
 [![GitHub Issues] (https://img.shields.io/github/issues/nayanelopes/boracultivar)](https://github.com/nayanelopes/boracultivar/issues)
+
 [![License: MIT] (https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 
