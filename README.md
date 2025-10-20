@@ -1,6 +1,17 @@
-## 🌱 Bora Cultivar
+## 🌿 Bora Cultivar? - Plataforma Digital de Arborização Urbana
 
-**Bora Cultivar** é uma aplicação web que promove o cultivo sustentável e a conexão com a natureza em espaços urbanos. O projeto visa incentivar ações ambientais por meio de uma interface moderna, leve e de fácil acesso.
+[![Deploy Vercel] (https://vercel.com/button)](https://boracultivar-wf55.vercel.app/)
+[![GitHub Issues] (https://img.shields.io/github/issues/nayanelopes/boracultivar)](https://github.com/nayanelopes/boracultivar/issues)
+[![License: MIT] (https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+
+## 🚀 Demo Online
+**Acesse agora:** [https://boracultivar-wf55.vercel.app/](https://boracultivar-wf55.vercel.app/)
+
+## 📋 Sobre o Projeto
+
+O **Bora Cultivar?** é uma iniciativa de evolução digital do programa "Bora Plantar" da Prefeitura do Recife, utilizando tecnologia para facilitar o plantio de árvores urbanas com processo 100% digital e análise inteligente.
+
 
 ## 🚀 Tecnologias Utilizadas
 
